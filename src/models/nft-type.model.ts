@@ -35,7 +35,7 @@ export const relations = {
                     $limit: 1
                 }
             ],
-            as: "latest_round"
+            as: "latestRound"
         }
     }
 }

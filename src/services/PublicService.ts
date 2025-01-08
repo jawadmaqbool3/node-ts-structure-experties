@@ -6,20 +6,21 @@ import { calculateDurationTillNowInSeconds } from "../utils/time";
 import { INftTypeExtendedForInitialSalesPage } from "../interfaces/models/nft-types.interface";
 import { INftRoundValue } from "../interfaces/models/nft-round-value.interface";
 import { INft, INftExtendedForInitialSalesPage } from "../interfaces/models/nft.interface";
+import FirstRoundLandingRepository from "../repositories/FirstRoundLandingRepository";
 
 export default class PublicService extends Service {
 
     constructor(
         private nftTypeRepository = new NftTypeRepository(),
         private nftRoundValueRepository = new NftRoundValueRepository(),
-        private firstRoundLadingRepository = new NftRoundValueRepository(),
+        private firstRoundLadingRepository = new FirstRoundLandingRepository(),
     ) {
         super();
     }
 
     public async prepareInitialSalesPageParams(ip: string): Promise<INftTypeExtendedForInitialSalesPage[]> {
 
-        const [nftTypes, roundValues] = await Promise.all([ 
+        const [nftTypes, roundValues] = await Promise.all([
             this.nftTypeRepository.applyPipeline([
                 nftTypesRelations.withNfts,
                 nftTypesRelations.withLatestRound,
@@ -27,25 +28,26 @@ export default class PublicService extends Service {
             this.nftRoundValueRepository.findAll(),
         ]);
 
-        
+
 
         const params = nftTypes.map((nftType: INftTypeExtendedForInitialSalesPage): INftTypeExtendedForInitialSalesPage => {
-            const activeRound = nftType.latestRound;
-            const nfts = nftType.nfts.map((nft: INft): INftExtendedForInitialSalesPage => { 
+            const activeRound = nftType.latestRound.length ? nftType.latestRound[0] : null;
+            const nfts = nftType.nfts.map((nft: INft): INftExtendedForInitialSalesPage => {
                 const roundValue = activeRound ? roundValues.find(
-                    (roundValue: INftRoundValue): boolean =>
-                        roundValue.nft_id === nft._id && roundValue.round_id === activeRound._id
+                    (roundValue: INftRoundValue): boolean => {
+                        return roundValue.nft_id === nft._id && roundValue.round_id === activeRound._id
+                    }
                 ) : null;
 
                 return {
                     ...nft,
-                    roundValue, 
+                    roundValue,
                 };
             });
 
             return {
                 ...nftType,
-                activeRound,  
+                activeRound,
                 nfts,
             };
         });
@@ -57,6 +59,7 @@ export default class PublicService extends Service {
                         ip,
                         round_id: param.activeRound._id,
                     });
+                   
                     const consumedTime = firstRoundLanding.createdAt
                         ? calculateDurationTillNowInSeconds(firstRoundLanding.createdAt)
                         : 0;
