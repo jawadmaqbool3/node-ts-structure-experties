@@ -4,6 +4,8 @@ import { relations as nftTypesRelations } from "../models/nft-type.model";
 import NftRoundValueRepository from "../repositories/NftRoundValueRepository";
 import { calculateDurationTillNowInSeconds } from "../utils/time";
 import { INftTypeExtendedForInitialSalesPage } from "../interfaces/models/nft-types.interface";
+import { INftRoundValue } from "../interfaces/models/nft-round-value.interface";
+import { INft, INftExtendedForInitialSalesPage } from "../interfaces/models/nft.interface";
 
 export default class PublicService extends Service {
 
@@ -15,9 +17,9 @@ export default class PublicService extends Service {
         super();
     }
 
-    public async prepareInitialSalesPageParams(ip: string | null | undefined): Promise<INftTypeExtendedForInitialSalesPage[]> {
+    public async prepareInitialSalesPageParams(ip: string): Promise<INftTypeExtendedForInitialSalesPage[]> {
 
-        const [nftTypes, roundValues] = await Promise.all([
+        const [nftTypes, roundValues] = await Promise.all([ 
             this.nftTypeRepository.applyPipeline([
                 nftTypesRelations.withNfts,
                 nftTypesRelations.withLatestRound,
@@ -27,11 +29,11 @@ export default class PublicService extends Service {
 
         
 
-        const params = nftTypes.map((nftType: INftTypeExtendedForInitialSalesPage) => {
+        const params = nftTypes.map((nftType: INftTypeExtendedForInitialSalesPage): INftTypeExtendedForInitialSalesPage => {
             const activeRound = nftType.latestRound;
-            const nfts = nftType.nfts.map((nft: any) => { 
+            const nfts = nftType.nfts.map((nft: INft): INftExtendedForInitialSalesPage => { 
                 const roundValue = activeRound ? roundValues.find(
-                    (roundValue) =>
+                    (roundValue: INftRoundValue): boolean =>
                         roundValue.nft_id === nft._id && roundValue.round_id === activeRound._id
                 ) : null;
 
@@ -49,7 +51,7 @@ export default class PublicService extends Service {
         });
 
         await Promise.all(
-            params.map(async (param: INftTypeExtendedForInitialSalesPage) => {
+            params.map(async (param: INftTypeExtendedForInitialSalesPage): Promise<void> => {
                 if (param.activeRound) {
                     const firstRoundLanding = await this.firstRoundLadingRepository.findOrCreate({
                         ip,
@@ -58,7 +60,6 @@ export default class PublicService extends Service {
                     const consumedTime = firstRoundLanding.createdAt
                         ? calculateDurationTillNowInSeconds(firstRoundLanding.createdAt)
                         : 0;
-
                     param.consumedTime = consumedTime;
                 }
             })

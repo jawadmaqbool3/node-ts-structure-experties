@@ -12,5 +12,5 @@ export interface IFirstRoundLanding extends IFirstRoundLandingBase, Document {
 }
 
 export interface IFirstRoundLandingLean extends IFirstRoundLandingBase {
-    _id: string;
+    _id: mongoose.Schema.Types.ObjectId;
 }

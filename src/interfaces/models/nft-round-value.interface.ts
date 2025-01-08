@@ -20,6 +20,6 @@ export interface INftRoundValue extends Document, INftRoundValueBase {
     _id: mongoose.Schema.Types.ObjectId;
 }
 export interface INftRoundValueLean extends INftRoundValueBase {
-    _id: string;
+    _id: mongoose.Schema.Types.ObjectId;
 }
 

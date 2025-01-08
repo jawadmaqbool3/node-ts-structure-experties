@@ -1,7 +1,7 @@
 import mongoose, { Document } from "mongoose";
 
 export interface INftTypeBase  {
-    name: { type: String, required: [true] },
+    name: string,
     createdAt?: Date; 
     updatedAt?: Date;
 }
@@ -12,11 +12,11 @@ export interface INftType extends INftTypeBase, Document {
 }
 
 export interface INftTypeLean extends INftTypeBase {
-    _id: string
+    _id:  mongoose.Schema.Types.ObjectId;
 }
 
 
-export interface INftTypeExtendedForInitialSalesPage extends INftTypeBase {
+export interface INftTypeExtendedForInitialSalesPage extends INftTypeLean {
     latestRound?: any;
     activeRound?: any;
     consumedTime?: number
