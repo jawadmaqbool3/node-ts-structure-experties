@@ -1,9 +1,9 @@
-import { Document } from "mongoose";
 import NftTypeRepository from "../repositories/NftTypeRepository";
 import Service from "./Service";
 import { relations as nftTypesRelations } from "../models/nft-type.model";
 import NftRoundValueRepository from "../repositories/NftRoundValueRepository";
 import { calculateDurationTillNowInSeconds } from "../utils/time";
+import { INftTypeExtendedForInitialSalesPage } from "../interfaces/models/nft-types.interface";
 
 export default class PublicService extends Service {
 
@@ -15,66 +15,55 @@ export default class PublicService extends Service {
         super();
     }
 
-    public async getInitialSalesPageParams(ip: string | null | undefined): Promise<Document[]>
-    {
+    public async prepareInitialSalesPageParams(ip: string | null | undefined): Promise<INftTypeExtendedForInitialSalesPage[]> {
 
-        const nftTypes = await this.nftTypeRepository.applyPipeline([
-            nftTypesRelations.withNfts,
-            nftTypesRelations.withLatestRound,
+        const [nftTypes, roundValues] = await Promise.all([
+            this.nftTypeRepository.applyPipeline([
+                nftTypesRelations.withNfts,
+                nftTypesRelations.withLatestRound,
+            ]),
+            this.nftRoundValueRepository.findAll(),
         ]);
 
-        const roundValues = await this.nftRoundValueRepository.findAll();
+        
 
-        const params = [];
-        for (const nftType of nftTypes) {
+        const params = nftTypes.map((nftType: INftTypeExtendedForInitialSalesPage) => {
+            const activeRound = nftType.latestRound;
+            const nfts = nftType.nfts.map((nft: any) => { 
+                const roundValue = activeRound ? roundValues.find(
+                    (roundValue) =>
+                        roundValue.nft_id === nft._id && roundValue.round_id === activeRound._id
+                ) : null;
 
-            const activeRound = nftTypes[0] ? nftTypes[0].latest_round : null;
-
-
-            const nfts = [];
-
-            for (const nft of nftType.nfts) {
-
-                const currentRoundValue = roundValues.find(roundValue => roundValue.nft_id === nft._id && roundValue.round_id === activeRound._id);
-
-                nfts.push({
-                    _id: nft._id,
-                    name: nft.name,
-                    booths: nft.booths,
-                    contract_address: nft.contract_address,
-                    round_values: currentRoundValue
-                });
-
-
-            }
-
-            params.push({
-                _id: nftType._id,
-                name: nftType.name,
-                active_round: activeRound,
-                nfts: nfts
+                return {
+                    ...nft,
+                    roundValue, 
+                };
             });
 
-        }
+            return {
+                ...nftType,
+                activeRound,  
+                nfts,
+            };
+        });
 
-        for (let index = 0; index < nftTypes.length; index++) {
-            let timeConsumed = 0;
+        await Promise.all(
+            params.map(async (param: INftTypeExtendedForInitialSalesPage) => {
+                if (param.activeRound) {
+                    const firstRoundLanding = await this.firstRoundLadingRepository.findOrCreate({
+                        ip,
+                        round_id: param.activeRound._id,
+                    });
+                    const consumedTime = firstRoundLanding.createdAt
+                        ? calculateDurationTillNowInSeconds(firstRoundLanding.createdAt)
+                        : 0;
 
-            const nftType = nftTypes[index];
+                    param.consumedTime = consumedTime;
+                }
+            })
+        );
 
-            if (nftType.active_round) {
-
-                const firstRoundLanding = await this.firstRoundLadingRepository.findOrCreate({ ip, round_id: nftType.active_round._id });
-
-                const initialTime = firstRoundLanding.createdAt;
-
-                timeConsumed = initialTime ? calculateDurationTillNowInSeconds(initialTime) : 0;
-
-            }
-
-            nftTypes[index].time_consumed = timeConsumed;
-        }
-
-        return nftTypes;
+        return params;
     }
 }

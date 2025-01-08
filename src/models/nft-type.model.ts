@@ -1,11 +1,7 @@
 import mongoose, { Document, Model } from 'mongoose';
+import { INftType } from '../interfaces/models/nft-types.interface';
 
-export interface INftType extends Document {
-    _id: mongoose.Schema.Types.ObjectId;
-    name: { type: String, required: [true] },
-    createdAt?: Date; 
-    updatedAt?: Date;
-}
+
 
 export const relations = {
     withNfts: {

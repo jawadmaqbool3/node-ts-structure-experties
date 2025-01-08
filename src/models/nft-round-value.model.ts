@@ -1,22 +1,7 @@
 import mongoose, { Document, Model } from 'mongoose';
+import { INftRoundValue } from '../interfaces/models/nft-round-value.interface';
 
-export interface INftRoundValue extends Document {
-    _id: mongoose.Schema.Types.ObjectId;
-    retail_price: number;
-    retail_quantity_total: number;
-    retail_quantity_sold: number;
-    trunk_quantity_total: number;
-    trunk_quantity_sold: number;
-    fast_discount_quantity_total: number;
-    fast_discount_quantity_sold: number;
-    trunk_discount_percentage: number;
-    fast_discount_percentage: number;
-    round_id: mongoose.Schema.Types.ObjectId;
-    nft_id: mongoose.Schema.Types.ObjectId;
-    fast_discount_duration_hours: number;
-    createdAt?: Date;
-    updatedAt?: Date;
-}
+
 
 export const relations = {
 

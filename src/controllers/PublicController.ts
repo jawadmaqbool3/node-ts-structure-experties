@@ -1,7 +1,7 @@
 import { NextFunction, response, Response } from 'express';
 import Controller from './Controller';
 import PublicService from '../services/PublicService';
-import { IIPCheckedRequest } from '../interfaces/request';
+import { IIPCheckedRequest } from '../interfaces/request.interface';
 
 export default class PublicController extends Controller {
 
@@ -11,7 +11,7 @@ export default class PublicController extends Controller {
 
     public async  getInitialSalesPageParams(req: IIPCheckedRequest, res: Response, next: NextFunction): Promise<void> {
         try {
-            const params = await this.publicService.getInitialSalesPageParams(req.checkedIp);
+            const params = await this.publicService.prepareInitialSalesPageParams(req.checkedIp);
             res.status(200).json({ params });
         } catch (error) {
             next(error);

@@ -1,6 +1,6 @@
 import { Response, NextFunction, Request } from "express";
 import requestIp  from 'request-ip';
-import {IIPCheckedRequest} from "../interfaces/request";
+import {IIPCheckedRequest} from "../interfaces/request.interface";
 
 export default function checkIP(req: Request, res: Response, next: NextFunction) {
 

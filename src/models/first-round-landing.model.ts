@@ -1,12 +1,7 @@
-import mongoose, { Document, Model } from 'mongoose';
+import mongoose, {  Model } from 'mongoose';
+import { IFirstRoundLanding } from '../interfaces/models/first-round-landing.interface';
 
-export interface IFirstRoundLanding extends Document {
-    _id: mongoose.Schema.Types.ObjectId;
-    ip: string;
-    round_id: mongoose.Schema.Types.ObjectId;
-    createdAt?: Date; 
-    updatedAt?: Date;
-}
+
 
 export const relations = {}
 
