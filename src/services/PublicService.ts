@@ -15,10 +15,8 @@ export default class PublicService extends Service {
         super();
     }
 
-    public async getInitialSalesPageParams(): 
-    Promise<any>
-    // Promise<Document[]>
-     {
+    public async getInitialSalesPageParams(ip: string | null | undefined): Promise<Document[]>
+    {
 
         const nftTypes = await this.nftTypeRepository.applyPipeline([
             nftTypesRelations.withNfts,
@@ -59,24 +57,24 @@ export default class PublicService extends Service {
 
         }
 
-        // for (let index = 0; index < nftTypes.length; index++) {
-        //     let timeConsumed = 0;
+        for (let index = 0; index < nftTypes.length; index++) {
+            let timeConsumed = 0;
 
-        //     const nftType = nftTypes[index];
+            const nftType = nftTypes[index];
 
-        //     if (nftType.active_round) {
+            if (nftType.active_round) {
 
-        //         const firstRoundLanding = await this.firstRoundLadingRepository.findOrCreate({ ip, round_id: nftType.active_round._id });
+                const firstRoundLanding = await this.firstRoundLadingRepository.findOrCreate({ ip, round_id: nftType.active_round._id });
 
-        //         const initialTime = firstRoundLanding.createdAt;
+                const initialTime = firstRoundLanding.createdAt;
 
-        //         timeConsumed = initialTime ? calculateDurationTillNowInSeconds(initialTime) : 0;
+                timeConsumed = initialTime ? calculateDurationTillNowInSeconds(initialTime) : 0;
 
-        //     }
+            }
 
-        //     nftTypes[index].time_consumed = timeConsumed;
-        // }
+            nftTypes[index].time_consumed = timeConsumed;
+        }
 
-        return params;
+        return nftTypes;
     }
 }

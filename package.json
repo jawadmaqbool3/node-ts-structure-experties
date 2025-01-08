@@ -6,6 +6,7 @@
   "dependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.2",
+    "@types/request-ip": "^0.0.41",
     "body-parser": "^1.20.3",
     "colors": "^1.4.0",
     "dotenv": "^16.4.7",

@@ -4,7 +4,7 @@ import RecordNotFoundException from '../exceptions/RecordNotFoundException';
 
 const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
 
-    console.error(colors.red(err.message));
+    console.error((err));
 
     if (err instanceof RecordNotFoundException) {
         res.status(404).json({ message: err.message });

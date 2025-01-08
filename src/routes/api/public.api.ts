@@ -6,7 +6,7 @@ import PublicController from '../../controllers/PublicController';
 
 const controller = new PublicController();
 
-router.get('/nft-sales-page-params', controller.getInitialSalesPageParams);
+router.get('/nft-sales-page-params', controller.getInitialSalesPageParams.bind(controller));
 
 
 export default router;
