@@ -1,4 +1,4 @@
-import mongoose, { Document, Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { INftRoundValue } from '../interfaces/models/nft-round-value.interface';
 
 
@@ -19,7 +19,6 @@ const nftRoundValuesSchema = new mongoose.Schema<INftRoundValue>({
     fast_discount_percentage: { type: Number, default: 0 },
     round_id: { type: mongoose.Types.ObjectId, required: true, ref: "nft_rounds" },
     nft_id: { type: mongoose.Types.ObjectId, required: true, ref: "nfts" },
-    fast_discount_duration_hours: { type: Number, default: 0 },
 }, { timestamps: true });
 
 const NftRoundValue: Model<INftRoundValue> = mongoose.model<INftRoundValue>('nft_round_values', nftRoundValuesSchema);

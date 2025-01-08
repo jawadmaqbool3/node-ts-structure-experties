@@ -12,7 +12,6 @@ export interface INftRoundValueBase  {
     fast_discount_percentage: number;
     round_id: mongoose.Schema.Types.ObjectId;
     nft_id: mongoose.Schema.Types.ObjectId;
-    fast_discount_duration_hours: number;
     createdAt?: Date;
     updatedAt?: Date;
 }

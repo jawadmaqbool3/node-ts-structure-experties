@@ -3,7 +3,22 @@ import { IFirstRoundLanding } from '../interfaces/models/first-round-landing.int
 
 
 
-export const relations = {}
+export const relations = {
+    round : {
+        $lookup: {
+            from: "nft_rounds",
+            let: { roundId: "$round_id" },
+            pipeline: [
+                {
+                    $match: {
+                        $expr: { $eq: ["$_id", "$$roundId"] }
+                    }
+                }
+            ],
+            as: "round"
+        }
+    }
+}
 
 const firstRoundLandingSchema = new mongoose.Schema<IFirstRoundLanding>({
     ip: { type: String, required: true },

@@ -1,4 +1,4 @@
-import mongoose, { Document, Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { INft } from '../interfaces/models/nft.interface';
 
 
@@ -11,8 +11,8 @@ const nftSchema = new mongoose.Schema<INft>({
     nft_type_id: { type: mongoose.Types.ObjectId, required: true, ref: "nft_types" },
 }, { timestamps: true });
 
-const NftType: Model<INft> = mongoose.model<INft>('nfts', nftSchema);
+const Nft: Model<INft> = mongoose.model<INft>('nfts', nftSchema);
 
 
 
-export default NftType;
+export default Nft;

@@ -1,4 +1,4 @@
-import { Document, Model } from "mongoose";
+import mongoose, { Model } from "mongoose";
 
 export default class Repository<T> {
     protected model: Model<T>;
@@ -10,7 +10,7 @@ export default class Repository<T> {
         return this.model.findOne(query).exec();
     }
 
-    public findById(id: string): Promise<T | null> {
+    public findById(id:  mongoose.Schema.Types.ObjectId | string): Promise<T | null> {
         return this.model.findById(id).exec();
     }
 
@@ -30,7 +30,7 @@ export default class Repository<T> {
         return this.model.create(data);
     }
 
-    public update(id: string, data: object): Promise<T | null> {
+    public update(id: string | mongoose.Schema.Types.ObjectId, data: object): Promise<T | null> {
         return this.model.findByIdAndUpdate(id, data, { new: true }).exec();
     }
 
@@ -44,6 +44,10 @@ export default class Repository<T> {
             return doc;
         }
         return this.model.create(Object.keys(data).length ? data : query);
+    }
+
+    public async isExists(query: object): Promise<boolean> {
+        return await this.model.exists(query)? true : false;
     }
 
     public delete(id: string): Promise<T | null> {

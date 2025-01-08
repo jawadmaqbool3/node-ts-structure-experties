@@ -1,0 +1,3 @@
+export const 
+SECONDS_IN_HOUR =  3600,  
+SECONDS_IN_DAY = 86400

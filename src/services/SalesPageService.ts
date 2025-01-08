@@ -8,7 +8,7 @@ import { INftRoundValue } from "../interfaces/models/nft-round-value.interface";
 import { INft, INftExtendedForInitialSalesPage } from "../interfaces/models/nft.interface";
 import FirstRoundLandingRepository from "../repositories/FirstRoundLandingRepository";
 
-export default class PublicService extends Service {
+export default class SalesPageService extends Service {
 
     constructor(
         private nftTypeRepository = new NftTypeRepository(),
@@ -70,4 +70,8 @@ export default class PublicService extends Service {
 
         return params;
     }
+
+
+
+
 }
