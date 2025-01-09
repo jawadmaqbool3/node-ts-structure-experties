@@ -14,9 +14,16 @@ import { calculateDurationTillNowInSeconds } from "../utils/time";
 import { IFirstRoundLandingWithRound } from "../interfaces/models/first-round-landing.interface";
 import { INftOrder, INftOrderBase } from "../interfaces/models/nft-order.interface";
 import { INftRound } from "../interfaces/models/nft-round.interface";
-import { INftRoundValue, INftRoundValueLean } from "../interfaces/models/nft-round-value.interface";
+import { INftRoundValue } from "../interfaces/models/nft-round-value.interface";
 import mongoose from "mongoose";
-import { calculateValidatedDiscountAmounts, ensureRoundIsActive, isFastDiscountApplicable, validateAvailableQuantity } from "../utils/nft-order.utils";
+import {
+    calculateValidatedDiscountAmounts,
+    ensureRoundIsActive,
+    isFastDiscountApplicable,
+    validateAvailableQuantity
+} from "../utils/nft-order.utils";
+import RoundNotFoundException from "../exceptions/nft-round/RoundNotFoundException";
+import FirstRoundLandingNotFoundException from "../exceptions/first-round-landing/FirstRoundLandingNotFoundException";
 
 export default class NftOrderService extends Service {
 
@@ -93,19 +100,19 @@ export default class NftOrderService extends Service {
 
     private async getRoundValues(round_values_id: string): Promise<INftRoundValue> {
         const roundValue: INftRoundValue | null = await this.nftRoundValuesRepository.findById(round_values_id);
-        if (!roundValue) throw new Error('Round value not found');
+        if (!roundValue) throw new RoundNotFoundException();
         return roundValue;
     }
 
     private async getFirstRoundLanding(ip: string, round_id: mongoose.Schema.Types.ObjectId): Promise<IFirstRoundLandingWithRound> {
         const firstRoundLanding: IFirstRoundLandingWithRound | null = await this.firstLandingRepository.findOneWithRound({ ip, round_id });
-        if (!firstRoundLanding) throw new Error('First round landing not found');
+        if (!firstRoundLanding) throw new FirstRoundLandingNotFoundException();
         return firstRoundLanding;
     }
 
     private async getRound(round_id: mongoose.Schema.Types.ObjectId): Promise<INftRound> {
         const round: INftRound | null = await this.nftRoundRepository.findById(round_id);
-        if (!round) throw new Error('Round not found');
+        if (!round) throw new RoundNotFoundException();
         return round;
     }
 

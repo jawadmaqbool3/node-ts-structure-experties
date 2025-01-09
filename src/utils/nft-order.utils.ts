@@ -1,5 +1,8 @@
 import { PERCENTAGE_DIVISOR } from "../constants/numbers.constant";
 import { SECONDS_IN_DAY, SECONDS_IN_HOUR } from "../constants/time.constant";
+import NotEnoughQuantityAvailableException from "../exceptions/nft-order/NotEnoughQuantityAvailableException";
+import OrderAmountValidationFailedException from "../exceptions/nft-order/OrderAmountValidationFailedException";
+import RoundEndedException from "../exceptions/nft-round/RoundEndedException";
 import { INftRoundValue } from "../interfaces/models/nft-round-value.interface";
 import { TNftApplicableDiscountQuantity, TNftAvailableQuantity, TNftDiscountAmounts } from "../types/place-order.type";
 
@@ -19,7 +22,7 @@ export function validateAvailableQuantity(
     } = calculateAvailableQuantity(roundValue);
 
 
-    if ((availableFastQuantity + availableRetailQuantity) < unitsRequired) throw new Error("Not enough quantity available");
+    if ((availableFastQuantity + availableRetailQuantity) < unitsRequired) throw new NotEnoughQuantityAvailableException();
 
     let applicableFastDiscountUnits: number = 0,
         applicableTrunkDiscountUnits: number = 0,
@@ -66,7 +69,7 @@ export function calculateValidatedDiscountAmounts(
     const fastDiscountAmount: number = fastDiscountAmountPerUnit * applicableFastDiscountUnits;
     const totalAmount: number = netAmount - (trunkHolderDiscountAmount + fastDiscountAmount);
 
-    if (totalAmount != unitsRequired) throw new Error("Order validation failed");
+    if (totalAmount != unitsRequired) throw new OrderAmountValidationFailedException();
 
     return {
         trunkHolderDiscountAmount,
@@ -78,7 +81,7 @@ export function calculateValidatedDiscountAmounts(
 
 export function ensureRoundIsActive(timeConsumed: number, durationDays: number): void {
     const roundDuration = durationDays * SECONDS_IN_DAY;
-    if (timeConsumed > roundDuration) throw new Error("Round has ended");
+    if (timeConsumed > roundDuration) throw new RoundEndedException();
 }
 
 export function isFastDiscountApplicable(timeConsumed: number, fastDiscountDurationHours: number): boolean {

@@ -1,11 +1,9 @@
-export default class RecordNotFoundException extends Error {
+import CustomException from "./CustomException";
+
+export default class RecordNotFoundException extends CustomException {
     
     constructor(message: string = "Record not found") {
         
-        super(message);
-        
-        this.name = 'RecordNotFoundException';
-
-        Object.setPrototypeOf(this, RecordNotFoundException.prototype);
+        super(message, "RecordNotFoundException", 400);
     }
 }

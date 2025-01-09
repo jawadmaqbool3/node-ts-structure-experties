@@ -1,13 +1,14 @@
 import { Response, NextFunction, Request } from "express";
-import requestIp  from 'request-ip';
 import {IIPCheckedRequest} from "../interfaces/request.interface";
+import IpNotFoundException from "../exceptions/IpNotFoundException";
+import getIp from "../utils/request.utils";
 
 export default function checkIP(req: Request, res: Response, next: NextFunction) {
 
-    const ip = requestIp.getClientIp(req); 
+    const ip = getIp(req); 
 
     if(!ip) {
-        throw new Error('IP not found');
+        throw new IpNotFoundException();
     }
 
     let ipCheckedRequest : IIPCheckedRequest = req; 
