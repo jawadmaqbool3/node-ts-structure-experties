@@ -1,5 +1,6 @@
 import mongoose, { Model } from 'mongoose';
 import { INftOrder } from '../interfaces/models/nft-order.interface';
+import { NftOrderStatus } from '../enums/nft-order.enum';
 
 
 
@@ -34,8 +35,8 @@ const nftOrderSchema = new mongoose.Schema<INftOrder>({
 
     status: {
         type: String,
-        enum: ["PAID", "PENDING", "REVERTED"],
-        default: "PENDING",
+        enum: NftOrderStatus,
+        default: NftOrderStatus.PENDING,
     },
 }, { timestamps: true });
 

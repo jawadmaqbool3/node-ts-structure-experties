@@ -7,6 +7,8 @@ import NftOrderService from '../services/NftOrderService';
 import TrunkHolderService from '../services/TrunkHolderService';
 import RoundValuesService from '../services/RoundValuesService';
 import { TGetRoundValuesParams } from '../types/nft-values.type';
+import { TPaymentIntentCreateRequest } from '../types/stripe.type';
+import StripeService from '../services/StripeService';
 
 export default class PublicController extends Controller {
 
@@ -22,7 +24,8 @@ export default class PublicController extends Controller {
         private salesPageService = new SalesPageService(),
         private nftOrderService = new NftOrderService(),
         private trunkHolderService = new TrunkHolderService(),
-        private roundValueService = new RoundValuesService()
+        private roundValueService = new RoundValuesService(),
+        private stripeService = new StripeService()
     ) {
         super();
     }
@@ -88,6 +91,15 @@ export default class PublicController extends Controller {
         const roundValues = await this.roundValueService.getRoundValues(queryParams);
         
         return this.returnSuccess(res, { roundValues });
+    }
+
+
+    public async createStripePaymentIntent(req: IIPCheckedRequest, res: Response): Promise<void> {
+        const intentRequest: TPaymentIntentCreateRequest = {
+            ...req.body
+        }
+        const paymentIntent = await this.stripeService.createPaymentIntent(intentRequest);
+        return this.returnSuccess(res, { paymentIntent });
     }
 }
 
