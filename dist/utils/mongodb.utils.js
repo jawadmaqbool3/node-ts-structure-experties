@@ -15,6 +15,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.disconnectDB = exports.connectDB = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const colors_1 = __importDefault(require("colors"));
+/**
+ * Establishes a connection to the MongoDB database using the URI specified in the environment variable MONGO_URI.
+ * Logs a success message if the connection is established, or an error message and exits the process if the connection fails.
+ *
+ * @throws Error if the MongoDB URI is not provided.
+ */
+/**
+ * Establishes a connection to the MongoDB database using the URI specified in the environment variable MONGO_URI.
+ * Logs a success message if the connection is established, or an error message and exits the process if the connection fails.
+ *
+ * @throws Error if the MongoDB URI is not provided.
+ * @returns A Promise that resolves to void if the connection is successful, or rejects to Error if the connection fails.
+ */
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     const dbURI = process.env.MONGO_URI;
     try {
@@ -29,6 +42,11 @@ const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.connectDB = connectDB;
+/**
+ * Disconnects the MongoDB connection. Logs a success message if the disconnection is successful, or an error message if the disconnection fails.
+ *
+ * @returns A Promise that resolves to void if the disconnection is successful, or rejects to Error if the disconnection fails.
+ */
 const disconnectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.disconnect();
