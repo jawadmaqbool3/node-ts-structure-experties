@@ -1,4 +1,5 @@
 import mongoose, { Document } from "mongoose";
+import { INft, INftLean } from "./nft.interface";
 
 export interface INftTypeBase  {
     name: string,
@@ -20,6 +21,6 @@ export interface INftTypeExtendedForInitialSalesPage extends INftTypeLean {
     latestRound?: any;
     activeRound?: any;
     consumedTime?: number
-    nfts?: any;
+    nfts?: INftLean[];
 }
 

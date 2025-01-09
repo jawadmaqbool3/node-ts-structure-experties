@@ -2,14 +2,25 @@ import mongoose, { mongo } from "mongoose";
 import { INftRoundValue } from "../interfaces/models/nft-round-value.interface";
 import NftRoundValue from "../models/nft-round-value.model";
 import Repository from "./Repository";
-import { TNftApplicableDiscountQuantity } from "../types/place-order.type";
+import { TNftApplicableDiscountQuantity } from "../types/nft-order.type";
 
 export default class NftRoundValueRepository extends Repository<INftRoundValue> {
+    /**
+     * Initializes a new instance of the NftRoundValueRepository class.
+     * Calls the superclass constructor with the NftRoundValue model.
+     */
     constructor() {
         super(NftRoundValue);
     }
 
 
+    /**
+     * Decrements the trunk, fast discount and retail quantity sold from the RoundValue with the given id
+     * by the given applicable units. Returns the updated RoundValue.
+     * @param round_values_id id of the RoundValue to update
+     * @param units object with applicableTrunkDiscountUnits, applicableFastDiscountUnits and applicableRetailUnits
+     * @returns the updated RoundValue, or null if the RoundValue was not found
+     */
     public decrementUnits(
         round_values_id: mongoose.Schema.Types.ObjectId,
         units: TNftApplicableDiscountQuantity,

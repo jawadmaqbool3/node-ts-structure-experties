@@ -20,6 +20,3 @@ export interface INftLean extends INftBase {
 
 
 
-export interface INftExtendedForInitialSalesPage extends INftLean {
-    roundValue: INftRoundValueLean | null | undefined
-}

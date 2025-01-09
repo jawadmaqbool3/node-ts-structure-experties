@@ -1,6 +1,6 @@
 import Service from "./Service";
 
-import { TPlaceOrderRequestParams } from "../types/place-order.type";
+import { TPlaceOrderRequestParams } from "../types/nft-order.type";
 
 import NftRoundValueRepository from "../repositories/NftRoundValueRepository";
 import FirstRoundLandingRepository from "../repositories/FirstRoundLandingRepository";
@@ -27,6 +27,17 @@ import FirstRoundLandingNotFoundException from "../exceptions/first-round-landin
 
 export default class NftOrderService extends Service {
 
+    /**
+     * Constructor
+     *
+     * @param {NftRoundValueRepository} nftRoundValuesRepository - nft round value repository
+     * @param {FirstRoundLandingRepository} firstLandingRepository - first round landing repository
+     * @param {NftRoundRepository} nftRoundRepository - nft round repository
+     * @param {TrunkHolderRepository} trunkHolderRepository - trunk holder repository
+     * @param {NftOrderRepository} nftOrderRepository - nft order repository
+     * 
+     * @constructor
+     */
     constructor(
         private nftRoundValuesRepository = new NftRoundValueRepository(),
         private firstLandingRepository = new FirstRoundLandingRepository(),
@@ -37,6 +48,20 @@ export default class NftOrderService extends Service {
         super();
     }
 
+/**
+ * Places an NFT order with the given parameters after validating quantities,
+ * calculating applicable discounts, and ensuring the round is active.
+ * 
+ * @param {TPlaceOrderRequestParams} params - The parameters required to place an order, including
+ * purchase wallet, round values ID, units, total price, etc.
+ * 
+ * @returns {Promise<INftOrder>} - A promise that resolves to the created NFT order.
+ * 
+ * @throws {RoundNotFoundException} - If the specified round cannot be found.
+ * @throws {FirstRoundLandingNotFoundException} - If the first round landing cannot be retrieved.
+ * @throws {NotEnoughQuantityAvailableException} - If the required quantity is not available.
+ * @throws {OrderAmountValidationFailedException} - If the calculated order amount is invalid.
+ */
     public async placeOrder(params: TPlaceOrderRequestParams): Promise<INftOrder> {
 
         const roundValue = await this.getRoundValues(params.round_values_id);
@@ -98,18 +123,37 @@ export default class NftOrderService extends Service {
         } as Partial<INftOrderBase>);
     }
 
+        /**
+         * Finds a RoundValue by its id. If it doesn't exist, throws a RoundNotFoundException.
+         * @param round_values_id id of the RoundValue to find
+         * @returns the found RoundValue
+         * @throws RoundNotFoundException if the RoundValue is not found
+         */
     private async getRoundValues(round_values_id: string): Promise<INftRoundValue> {
         const roundValue: INftRoundValue | null = await this.nftRoundValuesRepository.findById(round_values_id);
         if (!roundValue) throw new RoundNotFoundException();
         return roundValue;
     }
 
+        /**
+         * Finds a FirstRoundLanding with its associated Round by the given ip and round_id. If it doesn't exist, throws a FirstRoundLandingNotFoundException.
+         * @param ip ip address of the user
+         * @param round_id id of the Round to find the FirstRoundLanding for
+         * @returns the found FirstRoundLanding with its associated Round
+         * @throws FirstRoundLandingNotFoundException if the FirstRoundLanding is not found
+         */
     private async getFirstRoundLanding(ip: string, round_id: mongoose.Schema.Types.ObjectId): Promise<IFirstRoundLandingWithRound> {
         const firstRoundLanding: IFirstRoundLandingWithRound | null = await this.firstLandingRepository.findOneWithRound({ ip, round_id });
         if (!firstRoundLanding) throw new FirstRoundLandingNotFoundException();
         return firstRoundLanding;
     }
 
+        /**
+         * Finds a Round by its id. If it doesn't exist, throws a RoundNotFoundException.
+         * @param round_id id of the Round to find
+         * @returns the found Round
+         * @throws RoundNotFoundException if the Round is not found
+         */
     private async getRound(round_id: mongoose.Schema.Types.ObjectId): Promise<INftRound> {
         const round: INftRound | null = await this.nftRoundRepository.findById(round_id);
         if (!round) throw new RoundNotFoundException();

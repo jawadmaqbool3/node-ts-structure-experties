@@ -3,11 +3,24 @@ import FirstRoundLanding, { relations as firstRoundLandingRelations } from "../m
 import Repository from "./Repository";
 
 export default class FirstRoundLandingRepository extends Repository<IFirstRoundLanding> {
+    /**
+     * Constructor for FirstRoundLandingRepository
+     *
+     * @constructor
+     */
     constructor() {
         super(FirstRoundLanding);
     }
 
 
+
+    /**
+     * Find a first round landing with its associated round
+     *
+     * @param {{$query: object}} query - The MongoDB query object
+     *
+     * @returns {Promise<IFirstRoundLandingWithRound | null>} - The first round landing document with the associated round
+     */
     async findOneWithRound($query: object): Promise<IFirstRoundLandingWithRound | null> {
         const results = await this.model.aggregate(
             [

@@ -4,6 +4,6 @@ import publicAPIs from './public.api'
 
 const router = express.Router();
 
-router.use('/public', publicAPIs);
+router.use('/', publicAPIs);
 
 export default router;

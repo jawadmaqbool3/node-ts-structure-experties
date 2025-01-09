@@ -1,5 +1,15 @@
 import mongoose from "mongoose";
 
+/**
+ * Converts the given id to a mongoose ObjectId, if it is valid.
+ *
+ * If the given id is already a mongoose ObjectId, it is returned as is.
+ * If the given id is a string or a number, it is converted to a mongoose ObjectId.
+ * If the given id is not a valid ObjectId string, it returns null.
+ *
+ * @param {any} id The id to convert.
+ * @returns {mongoose.Schema.Types.ObjectId | null} The converted ObjectId or null if it is not valid.
+ */
 export function toObjectId(id: any): mongoose.Schema.Types.ObjectId | null {
     if (mongoose.Types.ObjectId.isValid(id)) {
         if (id instanceof mongoose.Schema.Types.ObjectId) {
