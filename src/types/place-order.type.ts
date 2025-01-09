@@ -14,3 +14,21 @@ export type TPlaceOrderRequestParams = {
     trunk_discount_amount: number,
     fast_discount_amount: number,
 }
+
+
+export type TNftApplicableDiscountQuantity = {
+    applicableFastDiscountUnits: number,
+    applicableTrunkDiscountUnits: number,
+    applicableRetailUnits: number
+}
+
+export type TNftAvailableQuantity = {
+    availableTrunkHoldersQuantity: number,
+    availableFastQuantity: number,
+    availableRetailQuantity: number
+}
+
+export type TNftDiscountAmounts = {
+    trunkHolderDiscountAmount: number,
+    fastDiscountAmount: number
+}
