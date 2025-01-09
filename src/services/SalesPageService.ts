@@ -2,7 +2,7 @@ import NftTypeRepository from "../repositories/NftTypeRepository";
 import Service from "./Service";
 import { relations as nftTypesRelations } from "../models/nft-type.model";
 import { calculateDurationTillNowInSeconds } from "../utils/time";
-import { INftTypeExtendedForInitialSalesPage } from "../interfaces/models/nft-types.interface";
+import { INftType, INftTypeExtendedForInitialSalesPage } from "../interfaces/models/nft-types.interface";
 import FirstRoundLandingRepository from "../repositories/FirstRoundLandingRepository";
 
 export default class SalesPageService extends Service {
@@ -30,29 +30,25 @@ export default class SalesPageService extends Service {
     public async prepareInitialSalesPageParams(ip: string): Promise<INftTypeExtendedForInitialSalesPage[]> {
 
 
-        const [nftTypes] = await Promise.all([
-            this.nftTypeRepository.applyPipeline([
-                nftTypesRelations.withNfts,
-                nftTypesRelations.withLatestRound,
-            ])
+        const nftTypes: INftType[] = await this.nftTypeRepository.applyPipeline([
+            nftTypesRelations.withNfts,
+            nftTypesRelations.withLatestRound,
         ]);
 
         const params = nftTypes.map((nftType: INftTypeExtendedForInitialSalesPage): INftTypeExtendedForInitialSalesPage => {
-            const activeRound = nftType.latestRound.length ? nftType.latestRound[0] : null;
             return {
                 ...nftType,
-                activeRound,
+                latestRound: nftType.latestRound.length ? nftType.latestRound[0] : null,
             };
         });
 
         await Promise.all(
             params.map(async (param: INftTypeExtendedForInitialSalesPage): Promise<void> => {
-                if (param.activeRound) {
+                if (param.latestRound) {
                     const firstRoundLanding = await this.firstRoundLadingRepository.findOrCreate({
                         ip,
-                        round_id: param.activeRound._id,
+                        round_id: param.latestRound._id,
                     });
-
                     const consumedTime = firstRoundLanding.createdAt
                         ? calculateDurationTillNowInSeconds(firstRoundLanding.createdAt)
                         : 0;
