@@ -1,4 +1,5 @@
-import { ChainType, CurrencyTypes, NetworkType } from "../enums/transaction.enum";
+import mongoose from "mongoose";
+import { ChainType, CurrencyTypes, NetworkType, TransactionStatus } from "../enums/transaction.enum";
 
 export type TCreateTransactionRequest = {
     currency_amount: number,
@@ -14,3 +15,11 @@ export type TCreateTransactionRequest = {
     customer_id: string | undefined,
     chain_type: ChainType,
 }
+
+
+export type TUpdateTransactionRequest = {
+    _id: string | mongoose.Schema.Types.ObjectId,
+    transaction_time: Date,
+    transaction_hash: string,
+    transaction_status: TransactionStatus,
+};

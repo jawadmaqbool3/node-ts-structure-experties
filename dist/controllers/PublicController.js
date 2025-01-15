@@ -44,7 +44,7 @@ class PublicController extends Controller_1.default {
     getInitialSalesPageParams(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const params = req.checkedIp ? yield this.salesPageService.prepareInitialSalesPageParams(req.checkedIp) : [];
-            return this.returnSuccess(res, { params });
+            return this.prepareSuccess(res, { params });
         });
     }
     /**
@@ -59,7 +59,7 @@ class PublicController extends Controller_1.default {
         return __awaiter(this, void 0, void 0, function* () {
             const orderParams = Object.assign({ ip: req.checkedIp }, req.body);
             const order = req.checkedIp ? yield this.nftOrderService.placeOrder(orderParams) : null;
-            return this.returnSuccess(res, { order });
+            return this.prepareSuccess(res, { order });
         });
     }
     /**
@@ -74,7 +74,7 @@ class PublicController extends Controller_1.default {
         return __awaiter(this, void 0, void 0, function* () {
             const wallet_address = req.body.wallet_address;
             const isTrunkHolder = yield this.trunkHolderService.isTrunkHolder(wallet_address);
-            return this.returnSuccess(res, { isTrunkHolder });
+            return this.prepareSuccess(res, { isTrunkHolder });
         });
     }
     /**
@@ -89,7 +89,7 @@ class PublicController extends Controller_1.default {
         return __awaiter(this, void 0, void 0, function* () {
             const queryParams = Object.assign({}, req.body);
             const roundValues = yield this.roundValueService.getRoundValues(queryParams);
-            return this.returnSuccess(res, { roundValues });
+            return this.prepareSuccess(res, { roundValues });
         });
     }
 }

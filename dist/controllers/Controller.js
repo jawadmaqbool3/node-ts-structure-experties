@@ -14,7 +14,7 @@ class Controller {
      * @param {Response} res - Express response object
      * @param {object} data - Data to be sent back to the client
      */
-    returnSuccess(res, data) {
+    prepareSuccess(res, data) {
         res.status(200).json(data);
     }
 }

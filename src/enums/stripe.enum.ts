@@ -1,5 +1,5 @@
 export enum PaymentIntentStatus {
     PENDING = "PENDING",
-    SUCCEEDED = "SUCCESS",
+    SUCCESS = "SUCCESS",
     FAILED = "FAILED",
 }

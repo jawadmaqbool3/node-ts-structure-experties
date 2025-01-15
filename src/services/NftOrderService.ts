@@ -11,20 +11,13 @@ import NftRoundRepository from "../repositories/NftRoundRepository";
 import { toObjectId } from "../utils/mongoos.utils";
 import { calculateDurationTillNowInSeconds } from "../utils/time";
 
-import { IFirstRoundLandingWithRound } from "../interfaces/models/first-round-landing.interface";
 import { INftOrder, INftOrderBase } from "../interfaces/models/nft-order.interface";
-import { INftRound } from "../interfaces/models/nft-round.interface";
-import { INftRoundValue } from "../interfaces/models/nft-round-value.interface";
-import mongoose from "mongoose";
 import {
     calculateValidatedDiscountAmounts,
     ensureRoundIsActive,
     isFastDiscountApplicable,
     validateAvailableQuantity
 } from "../utils/nft-order.utils";
-import RoundNotFoundException from "../exceptions/nft-round/RoundNotFoundException";
-import FirstRoundLandingNotFoundException from "../exceptions/first-round-landing/FirstRoundLandingNotFoundException";
-import RoundValuesNotFoundException from "../exceptions/round-values/RoundValuesNotFoundException";
 
 export default class NftOrderService extends Service {
 

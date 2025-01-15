@@ -9,7 +9,7 @@ export enum CurrencyTypes {
 
 export enum TransactionStatus {
     PENDING = "PENDING",
-    SUCCEEDED = "SUCCESS",
+    SUCCESS = "SUCCESS",
     FAILED = "FAILED",
 }
 
@@ -23,6 +23,6 @@ export enum ChainType {
 
 export enum MintStatus {
     PENDING = "PENDING",
-    SUCCEEDED = "SUCCESS",
+    SUCCESS = "SUCCESS",
     FAILED = "FAILED",
 }
