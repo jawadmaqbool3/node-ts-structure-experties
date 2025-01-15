@@ -12,6 +12,14 @@ import Stripe from 'stripe';
 
 export default class StripeService extends Service {
     private stripe: Stripe;
+    /**
+     * Constructor
+     *
+     * @param {StripeCustomerRepository} stripeCustomerRepository - customer repository
+     * @param {StripePaymentIntentRepository} stripePaymentIntentRepository - payment intent repository
+     *
+     * @throws {StripeCredentialsNotFoundException} - if stripe secret key is not set
+     */
     constructor(
         private stripeCustomerRepository = new StripeCustomerRepository(),
         private stripePaymentIntentRepository = new StripePaymentIntentRepository(),
@@ -21,6 +29,16 @@ export default class StripeService extends Service {
         this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
     }
 
+    /**
+     * Creates a stripe payment intent
+     *
+     * @param {TPaymentIntentCreateRequest} intentRequest - request to create a payment intent
+     *
+     * @returns {Promise<IStripePaymentIntent>} - created payment intent
+     *
+     * @throws {StripeCredentialsNotFoundException} - if stripe secret key is not set
+     * @throws {StripeError} - if stripe fails to create a payment intent
+     */
     public async createPaymentIntent(intentRequest: TPaymentIntentCreateRequest): Promise<IStripePaymentIntent> {
         const {
             amount,
@@ -47,6 +65,15 @@ export default class StripeService extends Service {
     }
 
 
+    /**
+     * Retrieves a stripe customer from the database by email or creates a new one
+     *
+     * @param {TStripeCustomer} customer - customer object with email and name
+     *
+     * @returns {Promise<IStripeCustomer>} - stripe customer
+     *
+     * @throws {StripeError} - if stripe fails to create a customer
+     */
     public async getOrCreateStripeCustomer({ email, name }: TStripeCustomer): Promise<IStripeCustomer> {
         const existingRecord = await this.stripeCustomerRepository.searchByEmail(email);
 

@@ -80,7 +80,7 @@ export default class Repository<T> {
      * 
      * @returns {Promise<T>} - A promise that resolves to the created document.
      */
-    public create(data: object): Promise<T> {
+    public create(data: Partial<T>): Promise<T> {
         return this.model.create(data);
     }
 

@@ -9,9 +9,10 @@ import RoundValuesService from '../services/RoundValuesService';
 import { TGetRoundValuesParams } from '../types/nft-values.type';
 import { TPaymentIntentCreateRequest } from '../types/stripe.type';
 import StripeService from '../services/StripeService';
+import { TCreateTransactionRequest } from '../types/transaction.type';
+import TransactionService from '../services/TransactionService';
 
 export default class PublicController extends Controller {
-
     /**
      * Constructor
      *
@@ -25,11 +26,11 @@ export default class PublicController extends Controller {
         private nftOrderService = new NftOrderService(),
         private trunkHolderService = new TrunkHolderService(),
         private roundValueService = new RoundValuesService(),
-        private stripeService = new StripeService()
+        private stripeService = new StripeService(),
+        private transactionService = new TransactionService()
     ) {
         super();
     }
-
     /**
      * Get initial sales page parameters
      *
@@ -42,7 +43,6 @@ export default class PublicController extends Controller {
         const params = req.checkedIp ? await this.salesPageService.prepareInitialSalesPageParams(req.checkedIp) : [];
         return this.returnSuccess(res, { params });
     }
-
     /**
      * Place order
      *
@@ -59,7 +59,6 @@ export default class PublicController extends Controller {
         const order = req.checkedIp ? await this.nftOrderService.placeOrder(orderParams) : null;
         return this.returnSuccess(res, { order });
     }
-
     /**
      * Check if given wallet address is a trunk holder
      *
@@ -73,7 +72,6 @@ export default class PublicController extends Controller {
         const isTrunkHolder = await this.trunkHolderService.isTrunkHolder(wallet_address);
         return this.returnSuccess(res, { isTrunkHolder });
     }
-
     /**
      * Get round values
      *
@@ -83,23 +81,33 @@ export default class PublicController extends Controller {
      * @returns {Promise<void>}
      */
     public async getNftRoundValues(req: IIPCheckedRequest, res: Response): Promise<void> {
-        
         const queryParams: TGetRoundValuesParams = {
             ...req.body
         };
-        
         const roundValues = await this.roundValueService.getRoundValues(queryParams);
-        
         return this.returnSuccess(res, { roundValues });
     }
-
-
+    /**
+     * Creates a stripe payment intent
+     *
+     * @param {IIPCheckedRequest} req - request
+     * @param {Response} res - response
+     *
+     * @returns {Promise<void>}
+     */
     public async createStripePaymentIntent(req: IIPCheckedRequest, res: Response): Promise<void> {
         const intentRequest: TPaymentIntentCreateRequest = {
             ...req.body
         }
         const paymentIntent = await this.stripeService.createPaymentIntent(intentRequest);
         return this.returnSuccess(res, { paymentIntent });
+    }
+    public async createTransaction(req: IIPCheckedRequest, res: Response): Promise<void> {
+        const transactionRequest: TCreateTransactionRequest = {
+            ...req.body
+        }
+        const transaction = await this.transactionService.createTransaction(transactionRequest);
+        return this.returnSuccess(res, { transaction });
     }
 }
 
