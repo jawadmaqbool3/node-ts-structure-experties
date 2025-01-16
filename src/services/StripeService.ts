@@ -1,5 +1,5 @@
 import { CENTS_TO_DOLLARS_MULTIPLIER, USD } from "../constants/currency.constant";
-import StripeCredentialsNotFoundException from "../exceptions/StripeCredentialsNotFoundException";
+import { STRIPE_SECRET_KEY } from "../constants/env.constant";
 import { IStripeCustomer } from "../interfaces/models/stripe-customer.interface";
 import { IStripePaymentIntent } from "../interfaces/models/stripe-payment-intent.interface";
 import StripeCustomerRepository from "../repositories/StripeCustomerRepository";
@@ -25,8 +25,7 @@ export default class StripeService extends Service {
         private stripePaymentIntentRepository = new StripePaymentIntentRepository(),
     ) {
         super();
-        if (!process.env.STRIPE_SECRET_KEY) throw new StripeCredentialsNotFoundException();
-        this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+        this.stripe = new Stripe(STRIPE_SECRET_KEY)
     }
 
     /**

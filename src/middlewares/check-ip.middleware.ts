@@ -1,6 +1,6 @@
 import { Response, NextFunction, Request } from "express";
 import { IIPCheckedRequest } from "../interfaces/request.interface";
-import IpNotFoundException from "../exceptions/IpNotFoundException";
+import IpNotFoundException from "../exceptions/middlewares/IpNotFoundException";
 import getIp from "../utils/request.utils";
 
 /**

@@ -24,7 +24,7 @@ const transactionSchema = new mongoose.Schema<ITransaction>({
     mint_status: { type: String, enum: MintStatus, required: true, default: MintStatus.PENDING },
 }, { timestamps: true });
 
-const Transaction: Model<ITransaction> = mongoose.model<ITransaction>('trunk_holders', transactionSchema);
+const Transaction: Model<ITransaction> = mongoose.model<ITransaction>('transactions', transactionSchema);
 
 
 

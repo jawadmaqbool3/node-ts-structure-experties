@@ -1,4 +1,4 @@
-import CustomException from "./CustomException";
+import CustomException from "../CustomException";
 
 export default class IpNotFoundException extends CustomException {
     /**
@@ -8,7 +8,7 @@ export default class IpNotFoundException extends CustomException {
      * @param {string} [name=IpNotFoundException] - The error name
      * @param {number} [statusCode=403] - The HTTP status code
      */
-    constructor(
+    constructor(    
     ) {
         super("IP not found", "IpNotFoundException", 403);
     }

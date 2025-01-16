@@ -16,7 +16,7 @@ export default class Controller {
      * @param {object} data - Data to be sent back to the client
      */
     prepareSuccess(res: Response, data: object) {
-        res.status(200).json(data);
+        res.status(200).send(data);
     }
 
 } 

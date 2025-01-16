@@ -8,6 +8,6 @@ import { Request } from "express";
  *
  * @returns {string | null} The IP address of the client, or null if it could not be determined.
  */
-export default function getIp(req: Request) {
+export default function getIp(req: Request): string | null {
     return requestIp.getClientIp(req);
 }
