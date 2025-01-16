@@ -10,7 +10,7 @@ import { encryptSalesPagePayload } from "../utils/encryption.utils";
  * @param {Response} res - Express response object
  * @param {NextFunction} next - Express next function
  */
-export default function encryptResponse(
+export default function encryptSalesPageResponse(
   req: Request | IIPCheckedRequest,
   res: Response,
   next: NextFunction

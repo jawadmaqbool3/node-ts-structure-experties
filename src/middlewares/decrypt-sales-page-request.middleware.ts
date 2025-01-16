@@ -13,7 +13,7 @@ import { IIPCheckedRequest } from "../interfaces/request.interface";
  * @param {Response} res Express response object
  * @param {NextFunction} next Express next function
  */
-export default function decryptRequest(req: Request | IIPCheckedRequest, res: Response, next: NextFunction) {
+export default function decryptSalesPageRequest(req: Request | IIPCheckedRequest, res: Response, next: NextFunction) {
     if (req.method === 'POST' || req.method === 'PUT') {
         const { payload } = req.body;
         if (!payload) throw new EncryptedPayloadNotFound();
