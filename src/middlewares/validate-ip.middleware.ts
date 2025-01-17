@@ -1,7 +1,7 @@
 import { Response, NextFunction, Request } from "express";
 import { IExtendedCustomerRequest } from "../interfaces/request.interface";
 import IpNotFoundException from "../exceptions/middlewares/IpNotFoundException";
-import getIp from "../utils/request.utils";
+import {getIp} from "../utils/request.utils";
 
 /**
  * Middleware that checks if the client's IP address is available and

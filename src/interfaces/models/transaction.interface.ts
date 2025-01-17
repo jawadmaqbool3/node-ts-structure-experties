@@ -14,7 +14,7 @@ export interface ITransactionBase {
     currency_contract_address: string | null;
     transaction_network: NetworkType;
     token_contract_address: string | null;
-    transaction_time: Date;
+    transaction_time: Date | null;
     transaction_hash: string | null;
     currency_worth: number;
     round_id: mongoose.Types.ObjectId;

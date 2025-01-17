@@ -16,12 +16,14 @@ export default function decryptSalesPageRequest(req: Request | IExtendedCustomer
     if (req.method === 'POST' || req.method === 'PUT') {
         const { payload } = req.body;
         if (!payload) throw new EncryptedPayloadNotFound();
-
+        
         const decryptedPayload = decryptSalesPagePayload(payload);
-
+        
         delete req.body.payload;
         req.body = parseIfJson(decryptedPayload);
-      
+        console.log({
+            body: req.body
+        })
     }
 
     next();

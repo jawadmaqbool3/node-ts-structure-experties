@@ -12,6 +12,7 @@ import StripeService from '../services/StripeService';
 import { TCreateTransactionRequest, TUpdateTransactionRequest } from '../types/transaction.type';
 import TransactionService from '../services/TransactionService';
 import ReferralService from '../services/ReferralService';
+import CommissionService from '../services/CommissionService';
 
 export default class PublicController extends Controller {
     /**
@@ -30,6 +31,7 @@ export default class PublicController extends Controller {
         private stripeService = new StripeService(),
         private transactionService = new TransactionService(),
         private referralService = new ReferralService(),
+        private commissionService = new CommissionService()
     ) {
         super();
     }
@@ -81,8 +83,10 @@ export default class PublicController extends Controller {
     public async checkTrunkHolder(req: IExtendedCustomerRequest, res: Response, next: NextFunction): Promise<void> {
 
         try {
-            const wallet_address: string = req.body.wallet_address;
-            const isTrunkHolder = await this.trunkHolderService.isTrunkHolder(wallet_address);
+            const { wallet_address } = req.body;
+
+            const isTrunkHolder = wallet_address && await this.trunkHolderService.isTrunkHolder(wallet_address);
+
             return this.prepareSuccess(res, { isTrunkHolder });
         } catch (error) {
             next(error)
@@ -138,9 +142,11 @@ export default class PublicController extends Controller {
      */
     public async createTransaction(req: IExtendedCustomerRequest, res: Response, next: NextFunction): Promise<void> {
 
-        try {// const { customer } = req;
+        try {
+            const customer = req.customer;
             const transactionRequest: TCreateTransactionRequest = {
-                ...req.body
+                ...req.body,
+                customer_id: customer?._id || null
             }
             const transaction = await this.transactionService.createTransaction(transactionRequest);
             return this.prepareSuccess(res, { transaction });
@@ -163,7 +169,11 @@ export default class PublicController extends Controller {
             const transactionRequest: TUpdateTransactionRequest = {
                 ...req.body
             }
+
             const transaction = await this.transactionService.updateTransaction(transactionRequest);
+
+            if (transaction) await this.commissionService.applyCommissions(transaction);
+
             return this.prepareSuccess(res, { transaction });
         } catch (error) {
             next(error)
