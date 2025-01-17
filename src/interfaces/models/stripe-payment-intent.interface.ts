@@ -2,7 +2,7 @@ import mongoose, { Document } from "mongoose";
 import { PaymentIntentStatus } from "../../enums/stripe.enum";
 
 export interface IStripePaymentIntentBase {
-    order_id: mongoose.Schema.Types.ObjectId,
+    order_id: mongoose.Types.ObjectId,
     amount: number,
     currency: string,
     status: PaymentIntentStatus,
@@ -14,11 +14,11 @@ export interface IStripePaymentIntentBase {
 
 
 export interface IStripePaymentIntent extends IStripePaymentIntentBase, Document {
-    _id: mongoose.Schema.Types.ObjectId;
+    _id: mongoose.Types.ObjectId;
 }
 
 export interface IStripePaymentIntentLean extends IStripePaymentIntentBase {
-    _id: mongoose.Schema.Types.ObjectId;
+    _id: mongoose.Types.ObjectId;
 }
 
 

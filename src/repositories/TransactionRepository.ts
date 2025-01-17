@@ -16,7 +16,7 @@ export default class TransactionRepository extends Repository<ITransaction> {
         super(Transaction);
     }
 
-    public async validate(_id: string | mongoose.Schema.Types.ObjectId): Promise<void> {
+    public async validate(_id: string | mongoose.Types.ObjectId): Promise<void> {
         const transaction: boolean | null = await this.isExists({ _id: toObjectId(_id) });
         if (!transaction) throw new TransactionNotFoundException();
     }

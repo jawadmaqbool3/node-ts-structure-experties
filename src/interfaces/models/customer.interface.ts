@@ -9,19 +9,19 @@ export interface ICustomerBase {
     remember_token: string;
     status: boolean;
     email: string;
-    grand_parent_id: mongoose.Schema.Types.ObjectId | null;
-    parent_id: mongoose.Schema.Types.ObjectId | null;
+    grand_parent_id: mongoose.Types.ObjectId | null;
+    parent_id: mongoose.Types.ObjectId | null;
     createdAt?: Date;
     updatedAt?: Date;
 }
 
 
 export interface ICustomer extends ICustomerBase, Document {
-    _id: mongoose.Schema.Types.ObjectId;
+    _id: mongoose.Types.ObjectId;
 }
 
 export interface ICustomerLean extends ICustomerBase {
-    _id: mongoose.Schema.Types.ObjectId;
+    _id: mongoose.Types.ObjectId;
 }
 
 

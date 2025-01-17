@@ -24,7 +24,7 @@ export default class NftRoundValueRepository extends Repository<INftRoundValue> 
      * @returns the updated RoundValue, or null if the RoundValue was not found
      */
     public decrementUnits(
-        round_values_id: mongoose.Schema.Types.ObjectId,
+        round_values_id: mongoose.Types.ObjectId,
         units: TNftApplicableDiscountQuantity,
 
     ): Promise<INftRoundValue | null> {
@@ -53,7 +53,7 @@ export default class NftRoundValueRepository extends Repository<INftRoundValue> 
      * @returns the found RoundValue
      * @throws RoundValuesNotFoundException if the RoundValue is not found
      */
-    public async getValidated(round_values_id: string | mongoose.Schema.Types.ObjectId): Promise<INftRoundValue> {
+    public async getValidated(round_values_id: string | mongoose.Types.ObjectId): Promise<INftRoundValue> {
         const roundValues: INftRoundValue | null = await this.findById(round_values_id);
         if (!roundValues) throw new RoundValuesNotFoundException();
         return roundValues;

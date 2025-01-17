@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export type TGetRoundValuesParams = {
-    round_id: string | mongoose.Schema.Types.ObjectId,
-    nft_id: string | mongoose.Schema.Types.ObjectId,
+    round_id: string | mongoose.Types.ObjectId,
+    nft_id: string | mongoose.Types.ObjectId,
 }
 

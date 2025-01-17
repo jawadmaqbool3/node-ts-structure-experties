@@ -12,11 +12,15 @@ import { errorHandler } from './utils/error-handler.utils';
 
 import { PORT } from './constants/env.constant';
 
+import cors from 'cors';
+
 connectDB();
 
 const app = express();
 
 app.use(bodyParser.json());
+
+app.use(cors());
 
 app.use(router);
 

@@ -19,7 +19,7 @@ export default class NftOrderRepository extends Repository<INftOrder> {
      * @param _id The MongoDB ObjectId or string _id of the order to validate.
      * @throws OrderNotFoundException if the order does not exist.
      */
-    public async validate(_id: string | mongoose.Schema.Types.ObjectId): Promise<void> {
+    public async validate(_id: string | mongoose.Types.ObjectId): Promise<void> {
         const order: boolean | null = await this.isExists({ _id: toObjectId(_id) });
         if (!order) throw new OrderNotFoundException();
     }
@@ -30,7 +30,7 @@ export default class NftOrderRepository extends Repository<INftOrder> {
      * @returns The found NFT order.
      * @throws OrderNotFoundException if the order does not exist.
      */
-    public async getValidated(order_id: string | mongoose.Schema.Types.ObjectId): Promise<INftOrder> {
+    public async getValidated(order_id: string | mongoose.Types.ObjectId): Promise<INftOrder> {
         const order: INftOrder | null = await this.findById(order_id);
         if (!order) throw new OrderNotFoundException();
         return order;

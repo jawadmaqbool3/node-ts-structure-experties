@@ -21,7 +21,7 @@ export default class NftRoundRepository extends Repository<INftRound> {
      * @throws RoundNotFoundException if the round does not exist.
      */
 
-    public async validate(_id: string | mongoose.Schema.Types.ObjectId): Promise<void> {
+    public async validate(_id: string | mongoose.Types.ObjectId): Promise<void> {
         const round: boolean | null = await this.isExists({ _id: toObjectId(_id) });
         if (!round) throw new RoundNotFoundException();
     }
@@ -32,7 +32,7 @@ export default class NftRoundRepository extends Repository<INftRound> {
      * @returns the found Round
      * @throws RoundNotFoundException if the Round is not found
      */
-    public async getValidated(round_id: string | mongoose.Schema.Types.ObjectId): Promise<INftRound> {
+    public async getValidated(round_id: string | mongoose.Types.ObjectId): Promise<INftRound> {
         const round: INftRound | null = await this.findById(round_id);
         if (!round) throw new RoundNotFoundException();
         return round;

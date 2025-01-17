@@ -21,7 +21,7 @@ export default class CustomerRepository extends Repository<ICustomer> {
      * @param _id The MongoDB ObjectId or string _id of the customer to validate.
      * @throws CustomerNotFoundException if the customer does not exist.
      */
-    public async validate(_id: string | mongoose.Schema.Types.ObjectId): Promise<void> {
+    public async validate(_id: string | mongoose.Types.ObjectId): Promise<void> {
         const customer: boolean | null = await this.isExists({ _id: toObjectId(_id) });
         if (!customer) throw new CustomerNotFoundException();
     }
@@ -37,7 +37,7 @@ export default class CustomerRepository extends Repository<ICustomer> {
      *
      * @throws CustomerNotFoundException if the customer does not exist.
      */
-    public async getValidated(order_id: string | mongoose.Schema.Types.ObjectId): Promise<ICustomer> {
+    public async getValidated(order_id: string | mongoose.Types.ObjectId): Promise<ICustomer> {
         const customer: ICustomer | null = await this.findById(order_id);
         if (!customer) throw new CustomerNotFoundException();
         return customer;

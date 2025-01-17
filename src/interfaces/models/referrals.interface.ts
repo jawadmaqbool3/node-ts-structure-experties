@@ -3,7 +3,7 @@ import mongoose, { Document } from "mongoose";
 export interface IReferralBase {
     number_of_uses: number;
     referral_id: string;
-    user_id: mongoose.Schema.Types.ObjectId;
+    user_id: mongoose.Types.ObjectId;
     referral_count: number;
     createdAt?: Date;
     updatedAt?: Date;
@@ -11,11 +11,11 @@ export interface IReferralBase {
 
 
 export interface IReferral extends IReferralBase, Document {
-    _id: mongoose.Schema.Types.ObjectId;
+    _id: mongoose.Types.ObjectId;
 }
 
 export interface IReferralLean extends IReferralBase {
-    _id: mongoose.Schema.Types.ObjectId;
+    _id: mongoose.Types.ObjectId;
 }
 
 

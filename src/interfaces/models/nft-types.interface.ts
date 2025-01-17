@@ -9,11 +9,11 @@ export interface INftTypeBase  {
 
 
 export interface INftType extends INftTypeBase, Document {
-    _id: mongoose.Schema.Types.ObjectId;
+    _id: mongoose.Types.ObjectId;
 }
 
 export interface INftTypeLean extends INftTypeBase {
-    _id:  mongoose.Schema.Types.ObjectId;
+    _id:  mongoose.Types.ObjectId;
 }
 
 

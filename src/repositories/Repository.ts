@@ -33,11 +33,11 @@ export default class Repository<T> {
     /**
      * Finds a single document that matches the specified id.
      *
-     * @param {mongoose.Schema.Types.ObjectId | string} id - The id of the document to find.
+     * @param {mongoose.Types.ObjectId | string} id - The id of the document to find.
      * 
      * @returns {Promise<T | null>} - A promise that resolves to the found document or null if no document matches the id.
      */
-    public findById(id:  mongoose.Schema.Types.ObjectId | string): Promise<T | null> {
+    public findById(id:  mongoose.Types.ObjectId | string): Promise<T | null> {
         return this.model.findById(id).exec();
     }
 
@@ -87,13 +87,13 @@ export default class Repository<T> {
     /**
      * Updates a document in the collection with the specified id using the provided data.
      *
-     * @param {string | mongoose.Schema.Types.ObjectId} id - The id of the document to update.
+     * @param {string | mongoose.Types.ObjectId} id - The id of the document to update.
      * @param {object} data - The data to update the document with.
      * 
      * @returns {Promise<T | null>} - A promise that resolves to the updated document or null if no document matches the id.
      */
 
-    public update(id: string | mongoose.Schema.Types.ObjectId, data: object): Promise<T | null> {
+    public update(id: string | mongoose.Types.ObjectId, data: object): Promise<T | null> {
         return this.model.findByIdAndUpdate(id, data, { new: true }).exec();
     }
 

@@ -8,11 +8,11 @@ export interface ITrunkHolderBase  {
 
 
 export interface ITrunkHolder extends ITrunkHolderBase, Document {
-    _id: mongoose.Schema.Types.ObjectId;
+    _id: mongoose.Types.ObjectId;
 }
 
 export interface ITrunkHolderLean extends ITrunkHolderBase {
-    _id: mongoose.Schema.Types.ObjectId;
+    _id: mongoose.Types.ObjectId;
 }
 
 

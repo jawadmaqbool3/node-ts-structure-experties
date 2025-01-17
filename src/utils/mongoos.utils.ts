@@ -10,15 +10,15 @@ import InvalidObjectIdException from "../exceptions/InvalidObjectIdException";
  * If the given id is not a valid ObjectId string, it returns null.
  *
  * @param {any} id The id to convert.
- * @returns {mongoose.Schema.Types.ObjectId | null} The converted ObjectId or null if it is not valid.
+ * @returns {mongoose.Types.ObjectId | null} The converted ObjectId or null if it is not valid.
  * @throws InvalidObjectIdException If the given id is not a valid ObjectId string.
  */
-export function toObjectId(id: any): mongoose.Schema.Types.ObjectId {
-    if (mongoose.Types.ObjectId.isValid(id)) {
-        if (id instanceof mongoose.Schema.Types.ObjectId) {
-            return id;
-        }
-        return new mongoose.Schema.Types.ObjectId(id);
+export function toObjectId(id: string | mongoose.Types.ObjectId): any {
+    if (id instanceof mongoose.Types.ObjectId)
+        return id;
+    else if (mongoose.Types.ObjectId.isValid(id)) {
+        return new mongoose.Types.ObjectId(id);
     }
+
     throw new InvalidObjectIdException();
 }

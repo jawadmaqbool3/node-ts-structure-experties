@@ -99,6 +99,7 @@ export function calculateAvailableQuantity(roundValue: INftRoundValue): TNftAvai
 export function calculateValidatedDiscountAmounts(
     roundValue: INftRoundValue,
     unitsRequired: number,
+    totalPrice: number,
     applicableTrunkDiscountUnits: number,
     applicableFastDiscountUnits: number
 ): TNftDiscountAmounts {
@@ -108,8 +109,12 @@ export function calculateValidatedDiscountAmounts(
     const trunkHolderDiscountAmount: number = trunkDiscountAmountPerUnit * applicableTrunkDiscountUnits;
     const fastDiscountAmount: number = fastDiscountAmountPerUnit * applicableFastDiscountUnits;
     const totalAmount: number = netAmount - (trunkHolderDiscountAmount + fastDiscountAmount);
-
-    if (totalAmount != unitsRequired) throw new OrderAmountValidationFailedException();
+    console.log({
+        totalAmount,
+        applicableTrunkDiscountUnits,
+        applicableFastDiscountUnits,
+    })
+    if (totalAmount != totalPrice) throw new OrderAmountValidationFailedException();
 
     return {
         trunkHolderDiscountAmount,

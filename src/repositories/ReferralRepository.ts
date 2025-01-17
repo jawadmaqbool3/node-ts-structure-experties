@@ -23,7 +23,7 @@ export default class ReferralRepository extends Repository<IReferral> {
      *
      * @throws ReferralNotFoundException if the referral does not exist.
      */
-    public async validate(_id: string | mongoose.Schema.Types.ObjectId): Promise<void> {
+    public async validate(_id: string | mongoose.Types.ObjectId): Promise<void> {
         const customer: boolean | null = await this.isExists({ _id: toObjectId(_id) });
         if (!customer) throw new ReferralNotFoundException();
     }
@@ -39,7 +39,7 @@ export default class ReferralRepository extends Repository<IReferral> {
      *
      * @throws ReferralNotFoundException if the referral does not exist.
      */
-    public async getValidated(order_id: string | mongoose.Schema.Types.ObjectId): Promise<IReferral> {
+    public async getValidated(order_id: string | mongoose.Types.ObjectId): Promise<IReferral> {
         const referral: IReferral | null = await this.findById(order_id);
         if (!referral) throw new ReferralNotFoundException();
         return referral;

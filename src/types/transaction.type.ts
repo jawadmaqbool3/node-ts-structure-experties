@@ -18,7 +18,7 @@ export type TCreateTransactionRequest = {
 
 
 export type TUpdateTransactionRequest = {
-    _id: string | mongoose.Schema.Types.ObjectId,
+    _id: string | mongoose.Types.ObjectId,
     transaction_time: Date,
     transaction_hash: string,
     transaction_status: TransactionStatus,

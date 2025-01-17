@@ -2,7 +2,9 @@ import CryptoJS from 'crypto-js';
 import SalesPageSalesPageEncryptionKeyNotFound from '../exceptions/crypto-js/SalesPageEncryptionKeyNotFound';
 import SalesPageEncryptionFailed from '../exceptions/crypto-js/SalesPageEncryptionFailed';
 import SalesPageDecryptionFailed from '../exceptions/crypto-js/SalesPageDecryptionFailed';
-import { SALES_PAGE_ENCRYPTION_KEY } from '../constants/env.constant';
+import { SALES_PAGE_ENCRYPTION_KEY, TARGET_WALLET_ENCRYPTION_KEY } from '../constants/env.constant';
+import TargetWalletEncryptionKeyNotFound from '../exceptions/crypto-js/TargetWalletEncryptionKeyNotFound';
+import TargetWalletEncryptionFailed from '../exceptions/crypto-js/TargetWalletEncryptionFailed';
 
 /**
  * Encrypt a given string with the sales page encryption key
@@ -50,6 +52,8 @@ export function decryptSalesPagePayload(data: string): string {
     }
 }
 
+
+
 /**
  * Retrieve the sales page encryption key from the environment variables
  *
@@ -59,7 +63,7 @@ export function decryptSalesPagePayload(data: string): string {
  */
 
 function getOrThrowSalesPageEncryptionKey(): string {
-    const secretKey: string= SALES_PAGE_ENCRYPTION_KEY;
+    const secretKey: string = SALES_PAGE_ENCRYPTION_KEY;
     if (!secretKey) throw new SalesPageSalesPageEncryptionKeyNotFound();
     return secretKey;
 }
@@ -89,4 +93,39 @@ function encrypt(data: string, key: string): string {
 
 function decrypt(data: string, key: string): string {
     return CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
+}
+
+
+
+/**
+ * Encrypt a given target wallet with the target wallet encryption key
+ *
+ * @param {string} wallet - target wallet to encrypt
+ *
+ * @returns {string} - encrypted target wallet
+ *
+ * @throws {TargetWalletEncryptionKeyNotFound} - if the target wallet encryption key is missing
+ * @throws {TargetWalletEncryptionFailed} - if the encryption process fails
+ */
+export function encryptTargetWallet(wallet: string): string {
+    try {
+        return encrypt(wallet, getOrThrowTargetWalletEncryptionKey());
+    }
+    catch (err) {
+        if (err instanceof TargetWalletEncryptionKeyNotFound) throw err;
+        else throw new TargetWalletEncryptionFailed();
+    }
+}
+
+/**
+ * Retrieves the target wallet encryption key from the environment variables
+ *
+ * @returns {string} - the target wallet encryption key
+ *
+ * @throws {TargetWalletEncryptionKeyNotFound} - if the target wallet encryption key is not found in the environment variables
+ */
+function getOrThrowTargetWalletEncryptionKey(): string {
+    const secretKey: string = TARGET_WALLET_ENCRYPTION_KEY;
+    if (!secretKey) throw new TargetWalletEncryptionKeyNotFound();
+    return secretKey;
 }

@@ -9,10 +9,11 @@ export type TPlaceOrderRequestParams = {
     trunk_units_consumed: number,
     fast_units_consumed: number,
     retail_units_consumed: number,
-    round_id: string | mongoose.Schema.Types.ObjectId,
-    nft_id: string | mongoose.Schema.Types.ObjectId,
+    round_id: string | mongoose.Types.ObjectId,
+    nft_id: string | mongoose.Types.ObjectId,
     trunk_discount_amount: number,
     fast_discount_amount: number,
+    target_wallet: string,
 }
 
 

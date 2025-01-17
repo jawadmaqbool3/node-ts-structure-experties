@@ -18,6 +18,7 @@ import {
     isFastDiscountApplicable,
     validateAvailableQuantity
 } from "../utils/nft-order.utils";
+import { encryptTargetWallet } from "../utils/encryption.utils";
 
 export default class NftOrderService extends Service {
 
@@ -89,6 +90,7 @@ export default class NftOrderService extends Service {
         } = calculateValidatedDiscountAmounts(
             roundValue,
             params.units,
+            params.total_price,
             applicableTrunkDiscountUnits,
             applicableFastDiscountUnits
         )
@@ -105,8 +107,8 @@ export default class NftOrderService extends Service {
         return this.nftOrderRepository.create({
             purchase_wallet: params.purchase_wallet,
             round_values_id: toObjectId(params.round_values_id),
-            round_id: params.round_id,
-            nft_id: params.nft_id,
+            round_id: roundValue.round_id,
+            nft_id: roundValue.nft_id,
             total_price: params.total_price,
             trunk_units_consumed: applicableTrunkDiscountUnits,
             fast_units_consumed: applicableFastDiscountUnits,
@@ -114,9 +116,9 @@ export default class NftOrderService extends Service {
             trunk_discount_amount: trunkHolderDiscountAmount,
             fast_discount_amount: fastDiscountAmount,
             units: params.units,
+            target_wallet: params.target_wallet,
+            encrypted_target_wallet: encryptTargetWallet(params.target_wallet)
         } as Partial<INftOrderBase>);
     }
-
-
 
 }

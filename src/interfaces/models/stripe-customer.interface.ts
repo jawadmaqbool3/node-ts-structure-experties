@@ -10,11 +10,11 @@ export interface IStripeCustomerBase  {
 
 
 export interface IStripeCustomer extends IStripeCustomerBase, Document {
-    _id: mongoose.Schema.Types.ObjectId;
+    _id: mongoose.Types.ObjectId;
 }
 
 export interface IStripeCustomerLean extends IStripeCustomerBase {
-    _id: mongoose.Schema.Types.ObjectId;
+    _id: mongoose.Types.ObjectId;
 }
 
 

@@ -44,7 +44,7 @@ export default class FirstRoundLandingRepository extends Repository<IFirstRoundL
      * @returns the found FirstRoundLanding with its associated Round
      * @throws FirstRoundLandingNotFoundException if the FirstRoundLanding is not found
      */
-    public async getValidatedWithRound(ip: string, round_id: string | mongoose.Schema.Types.ObjectId): Promise<IFirstRoundLandingWithRound> {
+    public async getValidatedWithRound(ip: string, round_id: string | mongoose.Types.ObjectId): Promise<IFirstRoundLandingWithRound> {
         const landing: IFirstRoundLandingWithRound | null = await this.findOneWithRound({ round_id: toObjectId(round_id), ip });
         if (!landing) throw new FirstRoundLandingNotFoundException();
         return landing;

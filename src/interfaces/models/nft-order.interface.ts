@@ -4,9 +4,9 @@ export interface INftOrderBase {
     purchase_wallet: string,
     target_wallet: string,
     encrypted_target_wallet: string
-    round_values_id: mongoose.Schema.Types.ObjectId
-    round_id: mongoose.Schema.Types.ObjectId,
-    nft_id: mongoose.Schema.Types.ObjectId,
+    round_values_id: mongoose.Types.ObjectId
+    round_id: mongoose.Types.ObjectId,
+    nft_id: mongoose.Types.ObjectId,
     total_price: number,
     trunk_units_consumed: number,
     fast_units_consumed: number,
@@ -21,11 +21,11 @@ export interface INftOrderBase {
 
 
 export interface INftOrder extends INftOrderBase, Document {
-    _id: mongoose.Schema.Types.ObjectId;
+    _id: mongoose.Types.ObjectId;
 }
 
 export interface INftOrderLean extends INftOrderBase {
-    _id: mongoose.Schema.Types.ObjectId;
+    _id: mongoose.Types.ObjectId;
 }
 
 

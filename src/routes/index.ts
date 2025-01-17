@@ -1,10 +1,10 @@
 import express from 'express';
 
 import api from './api/index';
-import checkIP from '../middlewares/check-ip.middleware';
+import validateIp from '../middlewares/validate-ip.middleware';
 
 const router = express.Router();
 
-router.use('/api', checkIP, api);
+router.use('/api', validateIp, api);
 
 export default router;

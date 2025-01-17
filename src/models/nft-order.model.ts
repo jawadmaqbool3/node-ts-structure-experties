@@ -13,11 +13,11 @@ const nftOrderSchema = new mongoose.Schema<INftOrder>({
 
     encrypted_target_wallet: { type: String, required: true },
 
-    round_values_id: { type: mongoose.Types.ObjectId, ref: "nft_round_values", required: true },
+    round_values_id: { type: mongoose.Schema.Types.ObjectId, ref: "nft_round_values", required: true },
 
-    round_id: { type: mongoose.Types.ObjectId, ref: "nft_rounds", required: true },
+    round_id: { type: mongoose.Schema.Types.ObjectId, ref: "nft_rounds", required: true },
 
-    nft_id: { type: mongoose.Types.ObjectId, ref: "nfts", required: true },
+    nft_id: { type: mongoose.Schema.Types.ObjectId, ref: "nfts", required: true },
 
     total_price: { type: Number, default: 0 },
 

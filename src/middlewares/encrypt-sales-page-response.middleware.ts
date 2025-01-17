@@ -1,5 +1,5 @@
 import { Response, NextFunction, Request } from "express";
-import { IIPCheckedRequest } from "../interfaces/request.interface";
+import { IExtendedCustomerRequest } from "../interfaces/request.interface";
 import { stringifyIfObj } from "../utils/json.utils";
 import { encryptSalesPagePayload } from "../utils/encryption.utils";
 
@@ -10,12 +10,12 @@ import { encryptSalesPagePayload } from "../utils/encryption.utils";
  * If the response body is a string, it will be encrypted as is.
  * The response body will be replaced with an object with a single property called
  * "payload" that contains the encrypted response body.
- * @param {Request | IIPCheckedRequest} req - request
+ * @param {Request | IExtendedCustomerRequest} req - request
  * @param {Response} res - response
  * @param {NextFunction} next - next function
  */
 export default function encryptSalesPageResponse(
-  req: Request | IIPCheckedRequest,
+  req: Request | IExtendedCustomerRequest,
   res: Response,
   next: NextFunction
 ) {
@@ -23,9 +23,9 @@ export default function encryptSalesPageResponse(
 
   res.send = function (body: any): Response<object> {
     if (typeof body === "object" && body.payload === undefined) {
-     
-      const { message, ...rest } = body;
 
+      const { message, ...rest } = body;
+      
       body = {
         message,
         payload: encryptSalesPagePayload(stringifyIfObj(rest)),
