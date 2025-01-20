@@ -17,7 +17,7 @@ export default class TrunkHolderRepository extends Repository<ITrunkHolder> {
      * @returns a promise that resolves to true if the wallet address is a trunk holder, false otherwise
      */
     public isTrunkHolder(wallet_address: string): Promise<boolean> {
-        return this.isExists({ "wallet_address": { "$regex": wallet_address, "$options": "i" } });
+        return this.isExists({ "wallet_address": { "$regex": `^${wallet_address}$`, "$options": "i" } });
     }
 
 }

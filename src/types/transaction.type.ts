@@ -13,6 +13,7 @@ export type TCreateTransactionRequest = {
     referral_id: string | undefined,
     wallet_address: string | undefined,
     customer_id: string | undefined,
+    transaction_hash?: string,
     chain_type: ChainType,
 }
 

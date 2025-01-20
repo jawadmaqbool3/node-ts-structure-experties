@@ -44,4 +44,14 @@ export default class CustomerRepository extends Repository<ICustomer> {
     }
 
 
+    /**
+     * Searches for a customer by their email address in a case-insensitive manner.
+     *
+     * @param email The email address to search for.
+     * 
+     * @returns A promise that resolves to the found customer or null if no customer matches the email address.
+     */
+    public searchByEmail(email: string): Promise<ICustomer | null> {
+        return this.findOne({ "email": { "$regex": `^${email}$`, "$options": "i" } });
+    }
 }

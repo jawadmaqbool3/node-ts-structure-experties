@@ -1,6 +1,6 @@
 import { Response, NextFunction, Request } from "express";
 import { IExtendedCustomerRequest } from "../interfaces/request.interface";
-import { verify } from "../utils/jwt";
+import { verifyAccessToken } from "../utils/jwt";
 import CustomerRepository from "../repositories/CustomerRepository";
 import { TRequestCustomer } from "../types/customer.type";
 import { getBearerToken } from "../utils/request.utils";
@@ -24,7 +24,7 @@ export default async function validateIfAccessToken(req: Request | IExtendedCust
         const token = getBearerToken(req);
 
         if (token) {
-            let { _id } = verify(token);
+            let { _id } = verifyAccessToken(token);
             let customer = await (new CustomerRepository()).findById(_id);
             if (customer) {
                 const extendedRequest: IExtendedCustomerRequest = req;

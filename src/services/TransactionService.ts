@@ -61,6 +61,7 @@ export default class TransactionService extends Service {
             order_id,
             referral_id,
             customer_id,
+            transaction_hash,
             ...rest
         } = transactionRequest;
 
@@ -69,6 +70,7 @@ export default class TransactionService extends Service {
         const sanitizedRequest = {
             ...rest,
             currency_amount,
+            transaction_hash,
             currency_symbol: currency_symbol || CurrencyTypes.USDT,
             currency_contract_address,
             transaction_network,
