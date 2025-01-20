@@ -21,7 +21,7 @@ export default class AuthService extends Service {
     public async authenticateAdminAndSendEmailOtp(credentials: TAuthRequest) {
         const admin = await this.login(credentials, this.adminRepository);
         const otp = generateOTP();
-        // this.adminRepository.update({ _id: admin._id }, { $set: { otp } });
+        this.adminRepository.update(admin._id, { $set: { email_otp_code: otp } });
     }
 
 
