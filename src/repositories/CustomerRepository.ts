@@ -26,7 +26,7 @@ export default class CustomerRepository extends Repository<ICustomer> {
         if (!customer) throw new CustomerNotFoundException();
     }
 
-  
+
 
     /**
      * Retrieves a customer by its _id after validating that it exists.

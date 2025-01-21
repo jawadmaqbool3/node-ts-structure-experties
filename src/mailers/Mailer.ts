@@ -6,6 +6,17 @@ import Mail from "nodemailer/lib/mailer";
 export default class Mailer {
     private static transporter: Transporter;
 
+    /**
+     * Creates an instance of the Mailer class.
+     *
+     * @param email The recipient's email address.
+     * 
+     * @remarks
+     * If the transporter property is not already set, it will be set up using the
+     * values from the environment variables. This is done to ensure that the
+     * transporter is only set up once, and to prevent having to set it up
+     * every time a new instance of the Mailer class is created.
+     */
     constructor(
         protected email: string
     ) {
@@ -22,11 +33,18 @@ export default class Mailer {
         }
     }
 
+    /**
+     * Sends an email using the transporter.
+     *
+     * @param mailOptions The mail options to use when sending the email.
+     *
+     * @returns A promise that resolves when the email has been sent.
+     */
     protected async send(mailOptions: Mail.Options): Promise<void> {
         return Mailer.transporter.sendMail(mailOptions);
     }
 
-   
+
 
 
 

@@ -24,6 +24,14 @@ export default class AdminRepository extends Repository<IAdmin> {
 
 
 
+    /**
+     * Resets the OTP for the specified admin. This sets the OTP code and the generation time.
+     * This also sets the OTP verification status to false.
+     *
+     * @param _id The ID of the admin to reset the OTP for.
+     *
+     * @returns A promise that resolves to the updated admin object on success or null on failure.
+     */
     public async resetOTP(_id: string | mongoose.Types.ObjectId): Promise<IAdmin | null> {
         const otp = generateOTP();
         return await this.update(_id, {

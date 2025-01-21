@@ -7,6 +7,16 @@ import { TAuthReponse, TAuthRequest, TAuthUser } from '../types/auth.type';
 import { createAccessToken, createRefreshToken } from './jwt';
 import EmailIsNotProvidedException from '../exceptions/auth/EmailIsNotProvidedException';
 import PasswordNotProvidedException from '../exceptions/auth/PasswordNotProvidedException';
+/**
+ * Hashes the given password using the bcrypt library and the AUTH_SALT environment variable.
+ * This method is used to hash passwords before storing them in the database.
+ *
+ * @param {string} password The password to hash.
+ *
+ * @returns {Promise<string>} - A promise that resolves with the hashed password.
+ *
+ * @throws {PasswordEncryptionFailedException} If the hashing process fails.
+ */
 export async function hashPassword(password: string): Promise<string> {
     try {
         return bcrypt.hash(password, AUTH_SALT);
@@ -15,12 +25,27 @@ export async function hashPassword(password: string): Promise<string> {
     }
 };
 
+/**
+ * Compares a plaintext password with a hashed password to check for a match.
+ *
+ * @param {string} password - The plaintext password to verify.
+ * @param {string} hashed - The hashed password to compare against.
+ *
+ * @returns {Promise<boolean>} - A promise that resolves to true if the passwords match, or false otherwise.
+ */
+
 export async function comparePassword(password: string, hashed: string): Promise<boolean> {
     return bcrypt.compare(password, hashed);
 };
 
 
 
+/**
+ * Sanitizes the given admin/customer model into a {@link TAuthUser} object suitable for returning in an API response.
+ * This function removes any sensitive information from the model and returns only the relevant information for the user.
+ * @param {IAdmin | ICustomer} model - The admin or customer model to sanitize.
+ * @returns {TAuthUser} - The sanitized user object.
+ */
 export function sanitizeAuthUser(model: IAdmin | ICustomer): TAuthUser {
     let is_tfa_verified, is_email_otp_verified;
     if ('is_tfa_verified' in model) is_tfa_verified = model.is_tfa_verified;
@@ -35,22 +60,44 @@ export function sanitizeAuthUser(model: IAdmin | ICustomer): TAuthUser {
     };
 }
 
+/**
+ * Creates an authentication response object for a given admin or customer model.
+ * This function is used to create a response to the /login endpoint.
+ *
+ * @param {IAdmin | ICustomer} model - The admin or customer model to create the response for.
+ *
+ * @returns {TAuthReponse} - The authentication response object containing the access and refresh tokens, and the user object.
+ */
 export function createAuthResponse(model: IAdmin | ICustomer): TAuthReponse {
     return {
-        access_token: createAccessToken({_id: model._id}),
-        refresh_token: createRefreshToken({_id: model._id}),
+        access_token: createAccessToken({ _id: model._id }),
+        refresh_token: createRefreshToken({ _id: model._id }),
         expires_in: 3600,
         user: sanitizeAuthUser(model)
     }
 }
 
 
+/**
+ * Validates the given login credentials, throwing exceptions if either the email or password are not provided.
+ * This function is used to validate the input to the /login endpoint.
+ *
+ * @param {TAuthRequest} credentials - The login credentials to validate.
+ *
+ * @throws {EmailIsNotProvidedException} If the email is not provided.
+ * @throws {PasswordNotProvidedException} If the password is not provided.
+ */
 export function authenticateLoginInput(credentials: TAuthRequest) {
     const { email, password } = credentials;
     if (!email) throw new EmailIsNotProvidedException();
     if (!password) throw new PasswordNotProvidedException();
 }
 
+/**
+ * Generates a 6-digit one-time password (OTP) as a number.
+ *
+ * @returns {number} The generated OTP.
+ */
 export function generateOTP(): number {
     return Math.floor(100000 + Math.random() * 900000);
 }

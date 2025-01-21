@@ -26,6 +26,15 @@ export function verifyAccessToken(token: string): any {
 }
 
 
+/**
+ * Verifies a given refresh JWT token.
+ *
+ * @param token The refresh JWT token to verifyAccessToken.
+ *
+ * @throws {TokenExpiredException} If the token is expired.
+ *
+ * @returns The decoded token payload.
+ */
 export function verifyRefreshToken(token: string): any {
     try {
         return jwt.verify(token, JWT_REFRESH_TOKEN_SECRET);
@@ -35,10 +44,25 @@ export function verifyRefreshToken(token: string): any {
     }
 }
 
+/**
+ * Creates a JWT access token given a payload.
+ *
+ * @param payload The payload to create the JWT token from.
+ *
+ * @returns The created JWT token.
+ */
 export function createAccessToken(payload: object): string {
     return jwt.sign(payload, JWT_ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION_TIME });
 }
 
+
+/**
+ * Creates a JWT refresh token given a payload.
+ *
+ * @param payload The payload to create the JWT refresh token from.
+ *
+ * @returns The created JWT refresh token.
+ */
 
 export function createRefreshToken(payload: object): string {
     return jwt.sign(payload, JWT_ACCESS_TOKEN_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRATION_TIME });

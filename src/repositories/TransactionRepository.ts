@@ -16,6 +16,13 @@ export default class TransactionRepository extends Repository<ITransaction> {
         super(Transaction);
     }
 
+    /**
+     * Validates whether a transaction exists in the database.
+     *
+     * @param _id The MongoDB ObjectId or string _id of the transaction to validate.
+     *
+     * @throws TransactionNotFoundException if the transaction does not exist.
+     */
     public async validate(_id: string | mongoose.Types.ObjectId): Promise<void> {
         const transaction: boolean | null = await this.isExists({ _id: toObjectId(_id) });
         if (!transaction) throw new TransactionNotFoundException();

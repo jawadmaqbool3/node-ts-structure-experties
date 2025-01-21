@@ -10,6 +10,14 @@ import { IAdmin } from "../../interfaces/models/admin.interface";
 
 export default class AuthController extends Controller {
 
+    /**
+     * Constructor for the AuthController.
+     *
+     * Initializes the AuthController with an instance of AuthService.
+     *
+     * @param {AuthService} [authService] - An instance of AuthService, defaulting to a new instance.
+     */
+
     constructor(
         private authService = new AuthService(),
     ) {
@@ -17,6 +25,15 @@ export default class AuthController extends Controller {
     }
 
 
+    /**
+     * Authenticates an admin user and sends an OTP to the user's email address.
+     *
+     * @param {IExtendedAdminRequest} req - The request object with the admin user credentials.
+     * @param {Response} res - The response object to send a success message.
+     * @param {NextFunction} next - The next function to pass the error to if authentication fails.
+     *
+     * @returns {Promise<void>}
+     */
     public async login(req: IExtendedAdminRequest, res: Response, next: NextFunction): Promise<void> {
         try {
             const authRequest: TAuthRequest = req.body;
@@ -31,6 +48,15 @@ export default class AuthController extends Controller {
     }
 
 
+    /**
+     * Verifies the OTP sent to the admin user's email address after a successful login.
+     *
+     * @param {IExtendedAdminRequest} req - The request object with the admin user's OTP in the body.
+     * @param {Response} res - The response object to send a success message.
+     * @param {NextFunction} next - The next function to pass the error to if OTP verification fails.
+     *
+     * @returns {Promise<void>}
+     */
     public async verifyOtp(req: IExtendedAdminRequest, res: Response, next: NextFunction): Promise<void> {
         try {
             const verificationRequest: TOTPVerificationRequest = req.body;

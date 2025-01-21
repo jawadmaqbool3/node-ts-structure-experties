@@ -11,6 +11,24 @@ import TFAVerificationFailedException from "../exceptions/tfa/TFAVerificationFai
 
 
 
+/**
+ * Middleware to validate admin access using a Bearer token.
+ * 
+ * This middleware extracts the Bearer token from the request, verifies it,
+ * and uses the token's payload to find the associated admin in the database.
+ * It also optionally checks for OTP and TFA verification statuses.
+ * 
+ * @param {boolean} checkOtpVerification - Whether to check if the admin's email OTP is verified.
+ * @param {boolean} checkTfaVerification - Whether to check if the admin's TFA is verified.
+ * 
+ * @returns An async function that serves as Express middleware.
+ * 
+ * @throws {AccessTokenNotFoundException} If no access token is provided in the request.
+ * @throws {InvalidAccessTokenProvidedException} If the token is invalid or the admin is not found.
+ * @throws {OTPVerificationFailedException} If OTP verification is required and the admin's OTP is not verified.
+ * @throws {TFAVerificationFailedException} If TFA verification is required and the admin's TFA is not verified.
+ */
+
 export default function validateAdmin(checkOtpVerification = false, checkTfaVerification = false) {
     return async (req: Request | IExtendedAdminRequest, res: Response, next: NextFunction) => {
         try {

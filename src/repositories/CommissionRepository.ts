@@ -19,6 +19,16 @@ export default class CommissionRepository extends Repository<ICommission> {
     }
 
 
+    /**
+     * Throws a CommissionAlreadyGivenException if a commission has already been given
+     * for the given transaction ID.
+     * 
+     * @param {string | mongoose.Types.ObjectId} transaction_id - The ID of the transaction
+     * 
+     * @throws {CommissionAlreadyGivenException} - If a commission has already been given for the given transaction ID
+     * 
+     * @returns {Promise<void>} - A promise that resolves when the operation is complete
+     */
     async throwIfAlreadyExists(transaction_id: string | mongoose.Types.ObjectId): Promise<void> {
         if (await this.isExists({ transaction_id: toObjectId(transaction_id) })) throw new CommissionAlreadyGivenException();
     }
