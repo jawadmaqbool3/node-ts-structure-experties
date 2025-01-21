@@ -28,7 +28,8 @@ export default class AdminRepository extends Repository<IAdmin> {
         const otp = generateOTP();
         return await this.update(_id, {
             email_otp_code: otp,
-            is_email_otp_verified: false
+            is_email_otp_verified: false,
+            otp_generated_at: new Date()
         });
     }
 }

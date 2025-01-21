@@ -1,15 +1,16 @@
-import EmailIsNotProvidedException from "../exceptions/auth/EmailIsNotProvidedException";
 import InvalidCredentialsProvidedException from "../exceptions/auth/InvalidCredentialsProvidedException";
-import PasswordNotProvidedException from "../exceptions/auth/PasswordNotProvidedException";
 import AdminRepository from "../repositories/AdminRepository";
-import { TAuthReponse, TAuthRequest, TAuthUser } from "../types/auth.type";
+import { TAuthReponse, TAuthRequest } from "../types/auth.type";
 import Service from "./Service";
-import { authenticateLoginInput, comparePassword, createAuthResponse, generateOTP, sanitizeAuthUser } from "../utils/auth.utils";
+import { authenticateLoginInput, comparePassword, createAuthResponse, } from "../utils/auth.utils";
 import CustomerRepository from "../repositories/CustomerRepository";
 import { ICustomer } from "../interfaces/models/customer.interface";
 import { IAdmin } from "../interfaces/models/admin.interface";
 import { sendAdminOTPEmail } from "../utils/email.utils";
-import OTPCreationFailedException from "../exceptions/auth/OTPCreationFailedException";
+import OTPCreationFailedException from "../exceptions/otp/OTPCreationFailedException";
+import InvalidOtpProvidedException from "../exceptions/otp/InvalidOtpProvidedException";
+import OTPVerificationFailedException from "../exceptions/otp/OTPVerificationFailedException";
+import { validateOrThrowOTP } from "../utils/otp.utils";
 
 
 export default class AuthService extends Service {
@@ -24,9 +25,21 @@ export default class AuthService extends Service {
     public async authenticateAdminAndSendEmailOtp(credentials: TAuthRequest) {
         let admin = await this.login(credentials, this.adminRepository);
         const updateOtpAdmin = await this.adminRepository.resetOTP(admin._id);
-        if(!updateOtpAdmin) throw new OTPCreationFailedException();
+        if (!updateOtpAdmin || !updateOtpAdmin.email_otp_code) throw new OTPCreationFailedException();
         await sendAdminOTPEmail(admin as IAdmin, updateOtpAdmin.email_otp_code);
         return createAuthResponse(updateOtpAdmin);
+    }
+
+    public async verifyAdminOtp(model: IAdmin, otp: number): Promise<IAdmin> {
+        validateOrThrowOTP(model, otp);
+        const admin = await this.updateOTPStatus(model, this.adminRepository);
+        return admin as IAdmin;
+    }
+
+    private async updateOTPStatus(model: IAdmin | ICustomer, repository: CustomerRepository | AdminRepository): Promise<IAdmin | ICustomer> {
+        const updatedModel = await repository.update(model._id, { is_email_otp_verified: true, email_otp_code: null });
+        if (!updatedModel) throw new OTPVerificationFailedException();
+        return updatedModel;
     }
 
 

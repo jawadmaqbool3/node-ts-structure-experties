@@ -22,12 +22,9 @@ export async function comparePassword(password: string, hashed: string): Promise
 
 
 export function sanitizeAuthUser(model: IAdmin | ICustomer): TAuthUser {
-    let is_tfa_verified = undefined,
-        is_email_otp_verified = undefined;
-
+    let is_tfa_verified, is_email_otp_verified;
     if ('is_tfa_verified' in model) is_tfa_verified = model.is_tfa_verified;
     if ('is_email_otp_verified' in model) is_email_otp_verified = model.is_email_otp_verified;
-
     return {
         _id: model._id.toString(),
         first_name: model.first_name,
@@ -40,8 +37,8 @@ export function sanitizeAuthUser(model: IAdmin | ICustomer): TAuthUser {
 
 export function createAuthResponse(model: IAdmin | ICustomer): TAuthReponse {
     return {
-        access_token: createAccessToken(model),
-        refresh_token: createRefreshToken(model),
+        access_token: createAccessToken({_id: model._id}),
+        refresh_token: createRefreshToken({_id: model._id}),
         expires_in: 3600,
         user: sanitizeAuthUser(model)
     }

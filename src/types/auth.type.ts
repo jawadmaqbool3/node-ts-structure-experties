@@ -19,3 +19,7 @@ export type TAuthRequest = {
     password: string
 }
 
+export type TOTPVerificationRequest = {
+    otp: number
+}
+

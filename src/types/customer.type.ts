@@ -6,5 +6,6 @@ export type TRequestCustomer = {
     parent_id: mongoose.Types.ObjectId | null,
     grand_parent_id: mongoose.Types.ObjectId | null,
     first_name: string, 
+    last_name?: string,
     email: string,
 }

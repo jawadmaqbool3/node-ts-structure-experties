@@ -16,7 +16,7 @@ import cors from 'cors';
 
 import settlementCommand from './commands/settlement.command';
 
-import { isDevMode } from './utils/application';
+import { isDevMode } from './utils/application.utils';
 
 connectDB();
 

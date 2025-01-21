@@ -30,5 +30,11 @@ TRANSACTION_NOT_FOUND = "Transaction not found",
 TRANSACTION_NOT_UPDATED = "Transaction not updated",
 INVALID_OBJECT_ID = "Invalid object id",
 RECORD_NOT_FOUND = "Record not found",
-STRIPE_CREDENTIALS_NOT_FOUND = "Stripe credentials not found"
+STRIPE_CREDENTIALS_NOT_FOUND = "Stripe credentials not found",
+ACCESS_TOKEN_NOT_FOUND = "Access token not found",
+INVALID_ACCESS_TOKEN_PROVIDED = "Invalid access token provided",
+ADMIN_NOT_FOUND = "Admin not found",
+INVALID_OTP_PROVIDED = "Invalid OTP provided",
+OTP_VERIFICATION_FAILED = "OTP verification failed",
+OTP_EXPIRED = "OTP expired"
 

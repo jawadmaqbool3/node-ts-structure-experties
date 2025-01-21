@@ -35,11 +35,11 @@ export function verifyRefreshToken(token: string): any {
     }
 }
 
-export function createAccessToken(payload: any): string {
+export function createAccessToken(payload: object): string {
     return jwt.sign(payload, JWT_ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION_TIME });
 }
 
 
-export function createRefreshToken(payload: any): string {
+export function createRefreshToken(payload: object): string {
     return jwt.sign(payload, JWT_ACCESS_TOKEN_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRATION_TIME });
 }
