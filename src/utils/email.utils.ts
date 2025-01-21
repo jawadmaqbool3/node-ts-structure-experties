@@ -1,5 +1,5 @@
 
-import AuthMailer from "../emails/AuthMailer";
+import AuthMailer from "../mailers/AuthMailer";
 import { IAdmin } from "../interfaces/models/admin.interface";
 
 export async function sendAdminOTPEmail(admin: IAdmin, otp: number): Promise<void> {
