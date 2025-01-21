@@ -8,7 +8,6 @@ import { ICustomer } from "../interfaces/models/customer.interface";
 import { IAdmin } from "../interfaces/models/admin.interface";
 import { sendAdminOTPEmail } from "../utils/email.utils";
 import OTPCreationFailedException from "../exceptions/otp/OTPCreationFailedException";
-import InvalidOtpProvidedException from "../exceptions/otp/InvalidOtpProvidedException";
 import OTPVerificationFailedException from "../exceptions/otp/OTPVerificationFailedException";
 import { validateOrThrowOTP } from "../utils/otp.utils";
 

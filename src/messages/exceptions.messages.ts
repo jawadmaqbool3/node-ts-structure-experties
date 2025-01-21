@@ -36,5 +36,6 @@ INVALID_ACCESS_TOKEN_PROVIDED = "Invalid access token provided",
 ADMIN_NOT_FOUND = "Admin not found",
 INVALID_OTP_PROVIDED = "Invalid OTP provided",
 OTP_VERIFICATION_FAILED = "OTP verification failed",
-OTP_EXPIRED = "OTP expired"
+OTP_EXPIRED = "OTP expired",
+TFA_VERIFICATION_FAILED = "2FA verification failed"
 
