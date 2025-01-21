@@ -1,15 +1,15 @@
+import { TOKEN_EXPIRED } from "../../messages/exceptions.messages";
 import CustomException from "../CustomException";
 
 export default class TokenExpiredException extends CustomException {
-    /**
-     * Constructor for TokenExpiredException
-     *
-     * @param {string} [message=Token expired] - The error message
-     * @param {string} [name=TokenExpiredException] - The error name
-     * @param {number} [statusCode=403] - The HTTP status code
-     */
-    constructor(
-    ) {
-        super("Token expired", "TokenExpiredException", 401);
-    }
+   /**
+    * Constructor for TokenExpiredException
+    *
+    * @throws TokenExpiredException
+    */
+   
+       constructor(
+       ) {
+           super(TOKEN_EXPIRED, 400);
+       }
 } 

@@ -1,16 +1,15 @@
+import { TRANSACTION_HASH_CANNOT_BE_EMPTY } from "../../messages/exceptions.messages";
 import CustomException from "../CustomException";
 
 export default class TransactionHashCannotBeEmptyException extends CustomException {
 
     /**
-     * Constructor
-     *
-     * @param {string} message - exception message
-     * @param {string} name - exception name
-     * @param {number} statusCode - http status code
-     */
+    * Constructor for TransactionHashCannotBeEmptyException
+    *
+    * @throws TransactionHashCannotBeEmptyException
+    */
     constructor(
     ) {
-        super("Transaction hash cannot be empty", "TransactionHashCannotBeEmptyException", 400);
+        super(TRANSACTION_HASH_CANNOT_BE_EMPTY, 400);
     }
 } 

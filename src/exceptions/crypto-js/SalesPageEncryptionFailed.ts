@@ -1,15 +1,17 @@
+import { SALES_PAGE_ENCRYPTION_FAILED } from "../../messages/exceptions.messages";
 import CustomException from "../CustomException";
 
 export default class SalesPageEncryptionFailed extends CustomException {
+
+
     /**
      * Constructor for SalesPageEncryptionFailed
      *
-     * @param {string} [message=Sales Page Encryption failed] - The error message
-     * @param {string} [name=SalesPageEncryptionFailed] - The error name
-     * @param {number} [statusCode=403] - The HTTP status code
+     * @throws SalesPageEncryptionFailed
      */
-    constructor(    
+
+    constructor(
     ) {
-        super("Sales Page Encryption failed", "SalesPageEncryptionFailed", 400);
+        super(SALES_PAGE_ENCRYPTION_FAILED, 400);
     }
 } 

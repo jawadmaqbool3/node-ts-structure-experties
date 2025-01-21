@@ -1,15 +1,15 @@
+import { INVALID_CREDENTIALS_PROVIDED } from "../../messages/exceptions.messages";
 import CustomException from "../CustomException";
 export default class InvalidCredentialsProvidedException extends CustomException {
-    /**
-     * Exception thrown when order amount validation fails
-     * 
-     * @constructor
-     * @param {string} message - exception message
-     * @param {string} name - exception name
-     * @param {number} statusCode - http status code
-     */
+   
+/**
+ * Constructor for InvalidCredentialsProvidedException
+ *
+ * @throws InvalidCredentialsProvidedException
+ */
+
     constructor(
     ) {
-        super("Invalid credentials provided", "InvalidCredentialsProvidedException", 400);
+        super(INVALID_CREDENTIALS_PROVIDED,  400);
     }
 } 

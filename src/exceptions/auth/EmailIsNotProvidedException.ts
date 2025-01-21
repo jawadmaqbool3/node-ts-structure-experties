@@ -1,17 +1,14 @@
 import CustomException from "../CustomException";
+import { EMAIL_IS_NOT_PROVIDED } from "../../messages/exceptions.messages";
 export default class EmailIsNotProvidedException extends CustomException {
 
     /**
-     * Exception thrown when an email is not provided.
+     * Constructor for EmailIsNotProvidedException
      *
-     * @constructor
-     * @param {string} message - exception message
-     * @param {string} name - exception name
-     * @param {number} statusCode - http status code
+     * @throws EmailIsNotProvidedException
      */
-
     constructor(
     ) {
-        super("Email is not provided", "EmailIsNotProvidedException", 400);
+        super(EMAIL_IS_NOT_PROVIDED, 400);
     }
 } 

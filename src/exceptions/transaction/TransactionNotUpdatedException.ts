@@ -1,16 +1,15 @@
+import { TRANSACTION_NOT_UPDATED } from "../../messages/exceptions.messages";
 import CustomException from "../CustomException";
 
 export default class TransactionNotUpdatedException extends CustomException {
 
     /**
-     * Constructor
-     *
-     * @param {string} message - exception message
-     * @param {string} name - exception name
-     * @param {number} statusCode - http status code
-     */
+    * Constructor for TransactionNotUpdatedException
+    *
+    * @throws TransactionNotUpdatedException
+    */
     constructor(
     ) {
-        super("Transaction not updated", "TransactionNotUpdatedException", 400);
+        super(TRANSACTION_NOT_UPDATED, 400);
     }
 } 

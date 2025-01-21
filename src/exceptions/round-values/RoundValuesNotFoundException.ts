@@ -1,16 +1,15 @@
+import { ROUND_VALUES_NOT_FOUND } from "../../messages/exceptions.messages";
 import CustomException from "../CustomException";
 
 export default class RoundValuesNotFoundException extends CustomException {
     /**
-     * Constructor
-     *
-     * @param {string} message - Error message
-     * @param {string} name - Error name
-     * @param {number} statusCode - Error status code
-     */
+    * Constructor for RoundValuesNotFoundException
+    *
+    * @throws RoundValuesNotFoundException
+    */
 
     constructor(
     ) {
-        super("Round values not found", "RoundValuesNotFoundException", 400);
+        super(ROUND_VALUES_NOT_FOUND, 400);
     }
 } 

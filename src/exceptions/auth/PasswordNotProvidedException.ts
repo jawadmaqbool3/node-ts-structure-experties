@@ -1,15 +1,14 @@
+import { PASSWORD_NOT_PROVIDED } from "../../messages/exceptions.messages";
 import CustomException from "../CustomException";
 export default class PasswordNotProvidedException extends CustomException {
+    
     /**
-     * Exception thrown when order amount validation fails
-     * 
-     * @constructor
-     * @param {string} message - exception message
-     * @param {string} name - exception name
-     * @param {number} statusCode - http status code
+     * Constructor for PasswordNotProvidedException
+     *
+     * @throws PasswordNotProvidedException
      */
     constructor(
     ) {
-        super("Password is not provided", "PasswordNotProvidedException", 400);
+        super(PASSWORD_NOT_PROVIDED, 400);
     }
 } 

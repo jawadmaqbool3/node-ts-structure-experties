@@ -1,15 +1,15 @@
+import { IP_NOT_FOUND } from "../../messages/exceptions.messages";
 import CustomException from "../CustomException";
 
 export default class IpNotFoundException extends CustomException {
-    /**
-     * Constructor for IpNotFoundException
-     *
-     * @param {string} [message=Ip not found] - The error message
-     * @param {string} [name=IpNotFoundException] - The error name
-     * @param {number} [statusCode=403] - The HTTP status code
-     */
+   /**
+    * Constructor for IpNotFoundException
+    *
+    * @throws IpNotFoundException
+    */
+
     constructor(    
     ) {
-        super("IP not found", "IpNotFoundException", 403);
+        super(IP_NOT_FOUND, 403);
     }
 } 

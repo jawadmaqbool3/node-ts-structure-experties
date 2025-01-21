@@ -1,16 +1,15 @@
+import { ROUND_HAS_ENDED } from "../../messages/exceptions.messages";
 import CustomException from "../CustomException";
 
 export default class RoundEndedException extends CustomException {
 
     /**
-     * Constructor
-     *
-     * @param {string} message - exception message
-     * @param {string} name - exception name
-     * @param {number} statusCode - http status code
-     */
+    * Constructor for RoundEndedException
+    *
+    * @throws RoundEndedException
+    */
     constructor(
     ) {
-        super("Round has ended", "RoundEndedException", 400);
+        super(ROUND_HAS_ENDED, 400);
     }
 } 

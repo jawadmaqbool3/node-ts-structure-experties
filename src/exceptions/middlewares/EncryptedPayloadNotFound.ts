@@ -1,15 +1,15 @@
+import { ENCRYPTED_PAYLOAD_NOT_FOUND } from "../../messages/exceptions.messages";
 import CustomException from "../CustomException";
 
 export default class EncryptedPayloadNotFound extends CustomException {
     /**
-     * Constructor for EncryptedPayloadNotFound
-     *
-     * @param {string} [message=Ip not found] - The error message
-     * @param {string} [name=EncryptedPayloadNotFound] - The error name
-     * @param {number} [statusCode=403] - The HTTP status code
-     */
+    * Constructor for EncryptedPayloadNotFound
+    *
+    * @throws EncryptedPayloadNotFound
+    */
+
     constructor(
     ) {
-        super("Encrypted payload not found", "EncryptedPayloadNotFound", 403);
+        super(ENCRYPTED_PAYLOAD_NOT_FOUND, 400);
     }
 } 

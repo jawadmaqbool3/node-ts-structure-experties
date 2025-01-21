@@ -1,15 +1,14 @@
+import { STRIPE_CREDENTIALS_NOT_FOUND } from "../messages/exceptions.messages";
 import CustomException from "./CustomException";
 
 export default class StripeCredentialsNotFoundException extends CustomException {
     /**
      * Constructor for StripeCredentialsNotFoundException
      *
-     * @param {string} [message=Stripe credentials not found] - The error message
-     * @param {string} [name=StripeCredentialsNotFoundException] - The error name
-     * @param {number} [statusCode=403] - The HTTP status code
+     * @throws StripeCredentialsNotFoundException
      */
     constructor(
     ) {
-        super("Stripe credentials not found", "StripeCredentialsNotFoundException", 403);
+        super(STRIPE_CREDENTIALS_NOT_FOUND, 403);
     }
 } 

@@ -25,7 +25,7 @@ export default class AuthService extends Service {
         let admin = await this.login(credentials, this.adminRepository);
         const updateOtpAdmin = await this.adminRepository.resetOTP(admin._id);
         if(!updateOtpAdmin) throw new OTPCreationFailedException();
-        await sendAdminOTPEmail(admin.email, updateOtpAdmin.email_otp_code);
+        await sendAdminOTPEmail(admin as IAdmin, updateOtpAdmin.email_otp_code);
         return createAuthResponse(updateOtpAdmin);
     }
 

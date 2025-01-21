@@ -1,0 +1,1 @@
+export const OTP_EXPIRATION_TIME_IN_MINUTES = 10

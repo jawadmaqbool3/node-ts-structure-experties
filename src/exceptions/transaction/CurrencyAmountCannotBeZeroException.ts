@@ -1,16 +1,15 @@
+import { CURRENCY_AMOUNT_CANNOT_BE_ZERO } from "../../messages/exceptions.messages";
 import CustomException from "../CustomException";
 
 export default class CurrencyAmountCannotBeZeroException extends CustomException {
 
     /**
-     * Constructor
-     *
-     * @param {string} message - exception message
-     * @param {string} name - exception name
-     * @param {number} statusCode - http status code
-     */
+    * Constructor for CurrencyAmountCannotBeZeroException
+    *
+    * @throws CurrencyAmountCannotBeZeroException
+    */
     constructor(
     ) {
-        super("Currency amount cannot be zero", "CurrencyAmountCannotBeZeroException", 400);
+        super(CURRENCY_AMOUNT_CANNOT_BE_ZERO, 400);
     }
 } 

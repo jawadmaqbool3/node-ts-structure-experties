@@ -1,15 +1,14 @@
+import { CUSTOMER_NOT_FOUND } from "../../messages/exceptions.messages";
 import CustomException from "../CustomException";
 export default class CustomerNotFoundException extends CustomException {
-    /**
-     * Exception thrown when order amount validation fails
-     * 
-     * @constructor
-     * @param {string} message - exception message
-     * @param {string} name - exception name
-     * @param {number} statusCode - http status code
-     */
-    constructor(
+     /**
+    * Constructor for CustomerNotFoundException
+    *
+    * @throws CustomerNotFoundException
+    */
+
+     constructor(
     ) {
-        super("Customer not found", "CustomerNotFoundException", 400);
+        super(CUSTOMER_NOT_FOUND, 400);
     }
 } 

@@ -1,15 +1,13 @@
+import { ORDER_AMOUNT_VALIDATION_FAILED } from "../../messages/exceptions.messages";
 import CustomException from "../CustomException";
 export default class OrderAmountValidationFailedException extends CustomException {
     /**
-     * Exception thrown when order amount validation fails
-     * 
-     * @constructor
-     * @param {string} message - exception message
-     * @param {string} name - exception name
-     * @param {number} statusCode - http status code
-     */
+    * Constructor for OrderAmountValidationFailedException
+    *
+    * @throws OrderAmountValidationFailedException
+    */
     constructor(
     ) {
-        super("Order amount validation failed", "OrderAmountValidationFailedException", 400);
+        super(ORDER_AMOUNT_VALIDATION_FAILED, 400);
     }
 } 

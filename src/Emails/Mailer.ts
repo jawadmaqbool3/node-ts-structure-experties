@@ -1,6 +1,5 @@
 import nodemailer, { Transporter } from "nodemailer";
 import { EMAIL_HOST, EMAIL_PASSWORD, EMAIL_PORT, EMAIL_USER } from "../constants/env.constant";
-import { prepareAdminOTPEmailOptions } from "../utils/email-options.utils";
 import Mail from "nodemailer/lib/mailer";
 
 

@@ -1,14 +1,15 @@
+import { FIRST_ROUND_LANDING_NOT_FOUND } from "../../messages/exceptions.messages";
 import CustomException from "../CustomException";
 
 export default class FirstRoundLandingNotFoundException extends CustomException {
-   
-/**
- * Constructs a new FirstRoundLandingNotFoundException with a predefined message,
- * name, and status code.
- */
+    /**
+    * Constructor for FirstRoundLandingNotFoundException
+    *
+    * @throws FirstRoundLandingNotFoundException
+    */
 
     constructor(
     ) {
-        super("First round landing not found", "FirstRoundLandingNotFoundException", 400);
+        super(FIRST_ROUND_LANDING_NOT_FOUND, 400);
     }
 } 

@@ -1,15 +1,13 @@
+import { REFERRAL_NOT_FOUND } from "../../messages/exceptions.messages";
 import CustomException from "../CustomException";
 export default class ReferralNotFoundException extends CustomException {
     /**
-     * Exception thrown when order amount validation fails
-     * 
-     * @constructor
-     * @param {string} message - exception message
-     * @param {string} name - exception name
-     * @param {number} statusCode - http status code
-     */
+    * Constructor for ReferralNotFoundException
+    *
+    * @throws ReferralNotFoundException
+    */
     constructor(
     ) {
-        super("Referral not found", "ReferralNotFoundException", 400);
+        super(REFERRAL_NOT_FOUND, 400);
     }
 } 

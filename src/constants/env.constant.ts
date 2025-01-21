@@ -1,8 +1,10 @@
 import dotenv from 'dotenv';
+import { ApplicationModes } from '../enums/application-modes.enum';
 dotenv.config();
 
 const env = process.env;
 
+const NODE_ENV: string = env.NODE_ENV || ApplicationModes.DEV;
 const PORT: number = Number(env.PORT) || 3000;
 const SALES_PAGE_ENCRYPTION_KEY: string = env.SALES_PAGE_ENCRYPTION_KEY || '';
 const STRIPE_SECRET_KEY: string = env.STRIPE_SECRET_KEY || '';
@@ -15,8 +17,12 @@ const EMAIL_PORT: number = Number(env.EMAIL_PORT) || 465;
 const EMAIL_SECURE: boolean = Boolean(env.EMAIL_SECURE) || false;
 const EMAIL_USER: string = env.EMAIL_USER || '';
 const EMAIL_PASSWORD: string = env.EMAIL_PASSWORD || '';
+
+
+
 export {
     PORT,
+    NODE_ENV,
     SALES_PAGE_ENCRYPTION_KEY,
     STRIPE_SECRET_KEY,
     TARGET_WALLET_ENCRYPTION_KEY,

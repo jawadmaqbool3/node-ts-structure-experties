@@ -14,6 +14,10 @@ import { PORT } from './constants/env.constant';
 
 import cors from 'cors';
 
+import settlementCommand from './commands/settlement.command';
+
+import { isDevMode } from './utils/application';
+
 connectDB();
 
 const app = express();
@@ -26,6 +30,7 @@ app.use(router);
 
 app.use(errorHandler);
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+    isDevMode && settlementCommand()
     console.log(colors.green(`Server is running at ${PORT}`));
 });

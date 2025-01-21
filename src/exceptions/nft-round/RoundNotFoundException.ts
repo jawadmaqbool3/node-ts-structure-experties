@@ -1,13 +1,13 @@
+import { ROUND_NOT_FOUND } from "../../messages/exceptions.messages";
 import CustomException from "../CustomException";
 export default class RoundNotFoundException extends CustomException {
     /**
-     * Creates a new instance of RoundNotFoundException
-     * @param {string} [message] - The error message
-     * @param {string} [name] - The error name
-     * @param {number} [statusCode] - The HTTP status code
-     */
+    * Constructor for RoundNotFoundException
+    *
+    * @throws RoundNotFoundException
+    */
     constructor(
     ) {
-        super("Round not found", "RoundNotFoundException", 400);
+        super(ROUND_NOT_FOUND, 400);
     }
 } 

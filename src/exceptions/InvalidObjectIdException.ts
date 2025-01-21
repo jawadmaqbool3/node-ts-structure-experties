@@ -1,3 +1,4 @@
+import { INVALID_OBJECT_ID } from "../messages/exceptions.messages";
 import CustomException from "./CustomException";
 
 export default class InvalidObjectIdException extends CustomException {
@@ -9,7 +10,7 @@ export default class InvalidObjectIdException extends CustomException {
      */
     constructor(
     ) {
-        super("Invalid Object Id", "InvalidObjectIdException", 400);
+        super(INVALID_OBJECT_ID, 400);
     }
 }
 
