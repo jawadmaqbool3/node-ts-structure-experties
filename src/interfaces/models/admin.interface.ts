@@ -8,8 +8,10 @@ export interface IAdminBase  {
     email: string;
     password: string;
     last_login_at: Date;
-    email_otp_code: string;
+    email_otp_code: number;
     active: boolean;
+    is_email_otp_verified: boolean;
+    is_tfa_verified: boolean;
     createdAt?: Date; 
     updatedAt?: Date;
 }

@@ -1,19 +1,20 @@
-import Service from "./Service";
 import nodemailer, { Transporter } from "nodemailer";
 import { EMAIL_HOST, EMAIL_PASSWORD, EMAIL_PORT, EMAIL_USER } from "../constants/env.constant";
 import { prepareAdminOTPEmailOptions } from "../utils/email-options.utils";
+import Mail from "nodemailer/lib/mailer";
 
 
-export default class EmailService extends Service {
+export default class Mailer {
     private static transporter: Transporter;
+
     constructor(
+        protected email: string
     ) {
-        super();
-        if (!EmailService.transporter) {
-            EmailService.transporter = nodemailer.createTransport({
+        if (!Mailer.transporter) {
+            Mailer.transporter = nodemailer.createTransport({
                 host: EMAIL_HOST,
                 port: EMAIL_PORT,
-                secure: true, 
+                secure: true,
                 auth: {
                     user: EMAIL_USER,
                     pass: EMAIL_PASSWORD,
@@ -22,9 +23,12 @@ export default class EmailService extends Service {
         }
     }
 
-    public async sendAdminOTPEmail(email: string, otp: number): Promise<void> {
-        const mailOptions = prepareAdminOTPEmailOptions(email, otp);
-        return EmailService.transporter.sendMail(mailOptions);
+    protected async send(mailOptions: Mail.Options): Promise<void> {
+        return Mailer.transporter.sendMail(mailOptions);
     }
+
+   
+
+
 
 }

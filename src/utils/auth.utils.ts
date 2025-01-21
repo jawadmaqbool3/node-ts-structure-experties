@@ -22,20 +22,28 @@ export async function comparePassword(password: string, hashed: string): Promise
 
 
 export function sanitizeAuthUser(model: IAdmin | ICustomer): TAuthUser {
+    let is_tfa_verified = undefined,
+        is_email_otp_verified = undefined;
+
+    if ('is_tfa_verified' in model) is_tfa_verified = model.is_tfa_verified;
+    if ('is_email_otp_verified' in model) is_email_otp_verified = model.is_email_otp_verified;
+
     return {
         _id: model._id.toString(),
         first_name: model.first_name,
         last_name: model.last_name,
-        email: model.email
+        email: model.email,
+        is_tfa_verified,
+        is_email_otp_verified
     };
 }
 
-export function createAuthResponse(model: TAuthUser): TAuthReponse {
+export function createAuthResponse(model: IAdmin | ICustomer): TAuthReponse {
     return {
         access_token: createAccessToken(model),
         refresh_token: createRefreshToken(model),
         expires_in: 3600,
-        user: model
+        user: sanitizeAuthUser(model)
     }
 }
 

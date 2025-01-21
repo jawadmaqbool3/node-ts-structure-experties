@@ -1,6 +1,8 @@
 import Repository from "./Repository";
 import { IAdmin } from "../interfaces/models/admin.interface";
 import Admin from "../models/admin.model";
+import { generateOTP } from "../utils/auth.utils";
+import mongoose from "mongoose";
 
 
 export default class AdminRepository extends Repository<IAdmin> {
@@ -17,5 +19,16 @@ export default class AdminRepository extends Repository<IAdmin> {
      */
     public searchByEmail(email: string): Promise<IAdmin | null> {
         return this.findOne({ "email": { "$regex": `^${email}$`, "$options": "i" } });
+    }
+
+
+
+
+    public async resetOTP(_id: string | mongoose.Types.ObjectId): Promise<IAdmin | null> {
+        const otp = generateOTP();
+        return await this.update(_id, {
+            email_otp_code: otp,
+            is_email_otp_verified: false
+        });
     }
 }

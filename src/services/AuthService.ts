@@ -8,9 +8,12 @@ import { authenticateLoginInput, comparePassword, createAuthResponse, generateOT
 import CustomerRepository from "../repositories/CustomerRepository";
 import { ICustomer } from "../interfaces/models/customer.interface";
 import { IAdmin } from "../interfaces/models/admin.interface";
+import { sendAdminOTPEmail } from "../utils/email.utils";
+import OTPCreationFailedException from "../exceptions/auth/OTPCreationFailedException";
 
 
 export default class AuthService extends Service {
+
     constructor(
         private adminRepository = new AdminRepository(),
         private customerRepository = new CustomerRepository(),
@@ -19,21 +22,23 @@ export default class AuthService extends Service {
     }
 
     public async authenticateAdminAndSendEmailOtp(credentials: TAuthRequest) {
-        const admin = await this.login(credentials, this.adminRepository);
-        const otp = generateOTP();
-        this.adminRepository.update(admin._id, { $set: { email_otp_code: otp } });
+        let admin = await this.login(credentials, this.adminRepository);
+        const updateOtpAdmin = await this.adminRepository.resetOTP(admin._id);
+        if(!updateOtpAdmin) throw new OTPCreationFailedException();
+        await sendAdminOTPEmail(admin.email, updateOtpAdmin.email_otp_code);
+        return createAuthResponse(updateOtpAdmin);
     }
 
 
     public async adminLogin(credentials: TAuthRequest): Promise<TAuthReponse> {
         const admin = await this.login(credentials, this.adminRepository);
-        return createAuthResponse(sanitizeAuthUser(admin));
+        return createAuthResponse(admin);
     }
 
 
     public async customerLogin(credentials: TAuthRequest): Promise<TAuthReponse> {
         const customer = await this.login(credentials, this.customerRepository);
-        return createAuthResponse(sanitizeAuthUser(customer));
+        return createAuthResponse(customer);
     }
 
     public async login(credentials: TAuthRequest, repository: CustomerRepository | AdminRepository): Promise<IAdmin | ICustomer> {

@@ -93,7 +93,7 @@ export default class Repository<T> {
      * @returns {Promise<T | null>} - A promise that resolves to the updated document or null if no document matches the id.
      */
 
-    public update(id: string | mongoose.Types.ObjectId, data: object): Promise<T | null> {
+    public update(id: string | mongoose.Types.ObjectId, data: Partial<T>): Promise<T | null> {
         return this.model.findByIdAndUpdate(id, data, { new: true }).exec();
     }
 

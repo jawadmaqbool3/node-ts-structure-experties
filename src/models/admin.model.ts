@@ -12,8 +12,10 @@ const adminSchema = new mongoose.Schema<IAdmin>({
     email: {type: String, required: true},
     password: {type: String, required: true},
     last_login_at: {type: Date},
-    email_otp_code: {type: String},
+    email_otp_code: {type: Number},
     active: {type: Boolean, default: true},
+    is_email_otp_verified: {type: Boolean, default: false},
+    is_tfa_verified: {type: Boolean, default: false}
 }, { timestamps: true });
 
 const Admin: Model<IAdmin> = mongoose.model<IAdmin>('admins', adminSchema);
