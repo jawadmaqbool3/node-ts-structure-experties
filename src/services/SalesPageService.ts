@@ -1,9 +1,9 @@
 import NftTypeRepository from "../repositories/NftTypeRepository";
 import Service from "./Service";
-import { relations as nftTypesRelations } from "../mongo/models/nft-type.model";
 import { calculateDurationTillNowInSeconds } from "../utils/time";
 import { INftType, INftTypeExtendedForInitialSalesPage } from "../interfaces/models/nft-types.interface";
 import FirstRoundLandingRepository from "../repositories/FirstRoundLandingRepository";
+import { NFT_TYPE_TO_LATEST_ROUND, NFT_TYPE_TO_NFTS } from "../mongo/relations/nft-types.relation";
 
 export default class SalesPageService extends Service {
 
@@ -31,8 +31,8 @@ export default class SalesPageService extends Service {
 
 
         const nftTypes: INftType[] = await this.nftTypeRepository.applyPipeline([
-            nftTypesRelations.withNfts,
-            nftTypesRelations.withLatestRound,
+            { $lookup: NFT_TYPE_TO_NFTS },
+            { $lookup: NFT_TYPE_TO_LATEST_ROUND },
         ]);
 
         const params = nftTypes.map((nftType: INftTypeExtendedForInitialSalesPage): INftTypeExtendedForInitialSalesPage => {

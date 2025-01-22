@@ -6,7 +6,6 @@ import { ICommission } from '../../interfaces/models/commission.interface';
 
 
 
-export const relations = {}
 
 const commissionSchema = new mongoose.Schema<ICommission>({
     comission_to: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "customers" },

@@ -1,7 +1,6 @@
 import mongoose, { Model } from 'mongoose';
 import { ICustomer } from '../../interfaces/models/customer.interface';
 
-export const relations = {}
 
 const customerSchema = new mongoose.Schema<ICustomer>({
     first_name: { type: String, required: true },

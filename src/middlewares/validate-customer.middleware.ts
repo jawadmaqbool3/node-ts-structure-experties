@@ -13,14 +13,15 @@ export default function validateCustomer(STRICT_MODE: boolean = true) {
     return async (req: Request | IExtendedCustomerRequest, res: Response, next: NextFunction) => {
         try {
             const token = getBearerToken(req);
-            if(!STRICT_MODE && !token) next();
-            if (!token) throw new AccessTokenNotFoundException();
-            let { _id } = verifyAccessToken(token);
-            let customer = await (new CustomerRepository()).findById(_id);
-            if (!customer) throw new InvalidAccessTokenProvidedException();
-            const extendedRequest: IExtendedCustomerRequest = req;
-            const requestCustomer: ICustomer = customer;
-            extendedRequest.customer = requestCustomer;
+            if (STRICT_MODE || token) {
+                if (!token) throw new AccessTokenNotFoundException();
+                let { _id } = verifyAccessToken(token);
+                let customer = await (new CustomerRepository()).findById(_id);
+                if (!customer) throw new InvalidAccessTokenProvidedException();
+                const extendedRequest: IExtendedCustomerRequest = req;
+                const requestCustomer: ICustomer = customer;
+                extendedRequest.customer = requestCustomer;
+            };
             next();
         } catch (err) {
             next(err);

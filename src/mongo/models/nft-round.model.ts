@@ -3,9 +3,7 @@ import { INftRound } from '../../interfaces/models/nft-round.interface';
 
 
 
-export const relations = {
 
-}
 
 const nftRoundSchema = new mongoose.Schema<INftRound>({
     name: { type: String, required: true },

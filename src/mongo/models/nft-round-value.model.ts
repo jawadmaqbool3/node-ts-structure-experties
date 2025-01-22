@@ -3,10 +3,6 @@ import { INftRoundValue } from '../../interfaces/models/nft-round-value.interfac
 
 
 
-export const relations = {
-
-}
-
 const nftRoundValuesSchema = new mongoose.Schema<INftRoundValue>({
     retail_price: { type: Number, default: 0 },
     retail_quantity_total: { type: Number, default: 0 },

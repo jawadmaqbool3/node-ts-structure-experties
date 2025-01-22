@@ -4,7 +4,6 @@ import { NftOrderStatus } from '../../enums/nft-order.enum';
 
 
 
-export const relations = {}
 
 const nftOrderSchema = new mongoose.Schema<INftOrder>({
     purchase_wallet: { type: String, required: true },

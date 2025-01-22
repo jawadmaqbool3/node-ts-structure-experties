@@ -2,7 +2,6 @@ import mongoose, { Model } from 'mongoose';
 import { IAdmin } from '../../interfaces/models/admin.interface';
 
 
-export const relations = {}
 
 const adminSchema = new mongoose.Schema<IAdmin>({
     first_name: {type: String, required: true},
