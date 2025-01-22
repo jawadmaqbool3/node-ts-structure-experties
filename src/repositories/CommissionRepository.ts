@@ -1,6 +1,6 @@
 import Repository from "./Repository";
 import { ICommission } from "../interfaces/models/commission.interface";
-import Commission from "../models/commission.model";
+import Commission from "../mongo/models/commission.model";
 import mongoose from "mongoose";
 import { toObjectId } from "../utils/mongoos.utils";
 import CommissionAlreadyGivenException from "../exceptions/commission/CommissionAlreadyGivenException";

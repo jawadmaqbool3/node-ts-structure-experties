@@ -1,5 +1,5 @@
 import mongoose, {  Model } from 'mongoose';
-import { IFirstRoundLanding } from '../interfaces/models/first-round-landing.interface';
+import { IFirstRoundLanding } from '../../interfaces/models/first-round-landing.interface';
 
 
 

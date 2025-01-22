@@ -1,5 +1,5 @@
 import mongoose, { Model } from 'mongoose';
-import { ICustomer } from '../interfaces/models/customer.interface';
+import { ICustomer } from '../../interfaces/models/customer.interface';
 
 export const relations = {}
 

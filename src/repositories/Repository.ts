@@ -1,4 +1,6 @@
-import mongoose, { Model } from "mongoose";
+import mongoose, { Model, PipelineStage } from "mongoose";
+import { paginate } from "../utils/pagination.utils";
+import { TFilter, TPaginationResults } from "../types/pagination.type";
 
 export default class Repository<T> {
     protected model: Model<T>;
@@ -37,7 +39,7 @@ export default class Repository<T> {
      * 
      * @returns {Promise<T | null>} - A promise that resolves to the found document or null if no document matches the id.
      */
-    public findById(id:  mongoose.Types.ObjectId | string): Promise<T | null> {
+    public findById(id: mongoose.Types.ObjectId | string): Promise<T | null> {
         return this.model.findById(id).exec();
     }
 
@@ -48,7 +50,7 @@ export default class Repository<T> {
      * 
      * @returns {Promise<T[]>} - A promise that resolves to an array of found documents.
      */
-    
+
     public findMany(query: object): Promise<T[]> {
         return this.model.find(query).exec();
     }
@@ -135,7 +137,7 @@ export default class Repository<T> {
      */
 
     public async isExists(query: object): Promise<boolean> {
-        return await this.model.exists(query)? true : false;
+        return await this.model.exists(query) ? true : false;
     }
 
     /**
@@ -145,7 +147,11 @@ export default class Repository<T> {
      * 
      * @returns {Promise<T | null>} - A promise that resolves to the deleted document or null if no document matches the id.
      */
-    public delete(id: string): Promise<T | null> {
+    public async delete(id: string): Promise<T | null> {
         return this.model.findByIdAndDelete(id).exec();
+    }
+
+    public async paginate(pipeline: PipelineStage[], filterData: TFilter): Promise<TPaginationResults<Model<T>>> {
+        return paginate(pipeline, this.model, filterData);
     }
 }

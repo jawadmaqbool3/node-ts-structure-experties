@@ -1,6 +1,6 @@
 import NftTypeRepository from "../repositories/NftTypeRepository";
 import Service from "./Service";
-import { relations as nftTypesRelations } from "../models/nft-type.model";
+import { relations as nftTypesRelations } from "../mongo/models/nft-type.model";
 import { calculateDurationTillNowInSeconds } from "../utils/time";
 import { INftType, INftTypeExtendedForInitialSalesPage } from "../interfaces/models/nft-types.interface";
 import FirstRoundLandingRepository from "../repositories/FirstRoundLandingRepository";

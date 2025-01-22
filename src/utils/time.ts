@@ -1,4 +1,4 @@
-import { SECONDS_IN_MINUTE } from "../constants/time.constant";
+import { SECONDS_IN_DAY, SECONDS_IN_MINUTE } from "../constants/time.constant";
 
 /**
  * Calculate the duration in seconds since a given initial time until now.
@@ -23,3 +23,16 @@ export function calculateDurationTillNowInSeconds(initialTime: Date): number {
 export function convertMinutesToSeconds(minutes: number): number {
     return minutes * SECONDS_IN_MINUTE;
 }
+
+
+
+/**
+ * Converts the given number of days to seconds.
+ *
+ * @param {number} days - The number of days to convert.
+ * @returns {number} The equivalent duration in seconds.
+ */
+
+export function convertDaysToSeconds(days: number): number {    
+    return days * SECONDS_IN_DAY;
+};

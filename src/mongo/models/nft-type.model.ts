@@ -1,5 +1,5 @@
 import mongoose, { Model } from 'mongoose';
-import { INftType } from '../interfaces/models/nft-types.interface';
+import { INftType } from '../../interfaces/models/nft-types.interface';
 
 
 

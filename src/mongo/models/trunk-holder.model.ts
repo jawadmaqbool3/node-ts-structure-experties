@@ -1,5 +1,5 @@
 import mongoose, { Model } from 'mongoose';
-import { ITrunkHolder } from '../interfaces/models/trunk-holder.interface';
+import { ITrunkHolder } from '../../interfaces/models/trunk-holder.interface';
 
 
 

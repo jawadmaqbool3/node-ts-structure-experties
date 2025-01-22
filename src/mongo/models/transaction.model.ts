@@ -1,6 +1,6 @@
 import mongoose, { Model } from 'mongoose';
-import { ITransaction } from '../interfaces/models/transaction.interface';
-import { ChainType, CurrencyTypes, MintStatus, NetworkType, TransactionStatus } from '../enums/transaction.enum';
+import { ITransaction } from '../../interfaces/models/transaction.interface';
+import { ChainType, CurrencyTypes, MintStatus, NetworkType, TransactionStatus } from '../../enums/transaction.enum';
 
 export const relations = {}
 

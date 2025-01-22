@@ -1,8 +1,8 @@
 import mongoose, { Model } from 'mongoose';
 
-import { PaymentIntentStatus } from '../enums/stripe.enum';
-import { IStripePaymentIntent } from '../interfaces/models/stripe-payment-intent.interface';
-import { USD } from '../constants/currency.constant';
+import { PaymentIntentStatus } from '../../enums/stripe.enum';
+import { IStripePaymentIntent } from '../../interfaces/models/stripe-payment-intent.interface';
+import { USD } from '../../constants/currency.constant';
 
 export const relations = {}
 

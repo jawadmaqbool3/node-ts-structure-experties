@@ -8,8 +8,12 @@ import NftOrderRepository from "../repositories/NftOrderRepository";
 import ReferralRepository from "../repositories/ReferralRepository";
 import CustomerRepository from "../repositories/CustomerRepository";
 import { toObjectId } from "../utils/mongoos.utils";
-import { CurrencyTypes, TransactionStatus } from "../enums/transaction.enum";
+import { ChainType, CurrencyTypes, TransactionStatus } from "../enums/transaction.enum";
 import TransactionHashCannotBeEmptyException from "../exceptions/transaction/TransactionHashCannotBeEmptyException";
+import { ICustomer } from "../interfaces/models/customer.interface";
+import { TFilter, TPaginationResults } from "../types/pagination.type";
+import { Model } from "mongoose";
+import { prepareCustomerTransactionListQuery } from "../mongo/queries/transaction.query";
 
 
 export default class TransactionService extends Service {
@@ -150,9 +154,16 @@ export default class TransactionService extends Service {
         order_id,
         referral_id,
         customer_id,
-        currency_amount
+        currency_amount,
+        chain_type,
+        transaction_hash
     }: TCreateTransactionRequest): Promise<void> {
         if (currency_amount <= 0) throw new CurrencyAmountCannotBeZeroException();
+        if (!transaction_hash &&
+            chain_type === ChainType.BSC ||
+            chain_type === ChainType.SOL ||
+            chain_type === ChainType.ETH
+        ) throw new TransactionHashCannotBeEmptyException();
         await this.nftRoundRepository.validate(round_id);
         await this.nftOrderRepository.validate(order_id);
         if (referral_id) await this.referralRepository.validate(referral_id);
@@ -177,6 +188,23 @@ export default class TransactionService extends Service {
     private async validateUpdateTransactionRequest({ _id, transaction_hash, transaction_status }: TUpdateTransactionRequest): Promise<void> {
         await this.transactionRepository.validate(_id);
         if (transaction_status === TransactionStatus.SUCCESS && !transaction_hash) throw new TransactionHashCannotBeEmptyException()
+    }
+
+
+    /**
+     * Retrieves a paginated list of transactions for a given customer based on the provided filters.
+     *
+     * @param {ICustomer} customer - The customer for whom to retrieve the transaction list.
+     * @param {TFilter} filters - The filters to apply for pagination and searching.
+     *
+     * @returns {Promise<TPaginationResults<Model<ITransaction>>>} - A promise that resolves to the paginated results of the customer's transactions.
+     */
+
+    public async customerList(customer: ICustomer, filters: TFilter): Promise<TPaginationResults<Model<ITransaction>>> {
+        return await this.transactionRepository.paginate(
+            prepareCustomerTransactionListQuery(customer._id),
+            filters
+        );
     }
 
 

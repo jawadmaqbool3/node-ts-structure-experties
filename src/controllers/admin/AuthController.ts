@@ -71,4 +71,3 @@ export default class AuthController extends Controller {
         }
     }
 }
-

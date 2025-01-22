@@ -1,6 +1,6 @@
 import mongoose, { Model } from 'mongoose';
 
-import { IReferral } from '../interfaces/models/referrals.interface';
+import { IReferral } from '../../interfaces/models/referrals.interface';
 
 export const relations = {}
 

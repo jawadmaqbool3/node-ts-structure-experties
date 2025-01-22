@@ -2,7 +2,7 @@
 import mongoose from "mongoose";
 import TransactionNotFoundException from "../exceptions/transaction/TransactionNotFoundException";
 import { ITransaction } from "../interfaces/models/transaction.interface";
-import Transaction from "../models/transaction.model";
+import Transaction from "../mongo/models/transaction.model";
 import { toObjectId } from "../utils/mongoos.utils";
 import Repository from "./Repository";
 

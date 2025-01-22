@@ -1,7 +1,7 @@
 import mongoose, { Model } from 'mongoose';
-import { NetworkType } from '../enums/transaction.enum';
-import { CommissionType } from '../enums/commission.enum';
-import { ICommission } from '../interfaces/models/commission.interface';
+import { NetworkType } from '../../enums/transaction.enum';
+import { CommissionType } from '../../enums/commission.enum';
+import { ICommission } from '../../interfaces/models/commission.interface';
 
 
 

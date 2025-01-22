@@ -1,5 +1,5 @@
 import { IStripeCustomer } from "../interfaces/models/stripe-customer.interface";
-import StripeCustomer from "../models/stripe-customer.model";
+import StripeCustomer from "../mongo/models/stripe-customer.model";
 import Repository from "./Repository";
 
 export default class StripeCustomerRepository extends Repository<IStripeCustomer> {

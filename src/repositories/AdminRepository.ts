@@ -1,6 +1,6 @@
 import Repository from "./Repository";
 import { IAdmin } from "../interfaces/models/admin.interface";
-import Admin from "../models/admin.model";
+import Admin from "../mongo/models/admin.model";
 import { generateOTP } from "../utils/auth.utils";
 import mongoose from "mongoose";
 
@@ -32,7 +32,7 @@ export default class AdminRepository extends Repository<IAdmin> {
      *
      * @returns A promise that resolves to the updated admin object on success or null on failure.
      */
-    public async resetOTP(_id: string | mongoose.Types.ObjectId): Promise<IAdmin | null> {
+    public async setOTP(_id: string | mongoose.Types.ObjectId): Promise<IAdmin | null> {
         const otp = generateOTP();
         return await this.update(_id, {
             email_otp_code: otp,

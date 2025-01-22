@@ -1,6 +1,6 @@
 import mongoose, { Model } from 'mongoose';
 
-import { IStripeCustomer } from '../interfaces/models/stripe-customer.interface';
+import { IStripeCustomer } from '../../interfaces/models/stripe-customer.interface';
 
 export const relations = {}
 

@@ -1,5 +1,5 @@
 import mongoose, { Model } from 'mongoose';
-import { INftRound } from '../interfaces/models/nft-round.interface';
+import { INftRound } from '../../interfaces/models/nft-round.interface';
 
 
 

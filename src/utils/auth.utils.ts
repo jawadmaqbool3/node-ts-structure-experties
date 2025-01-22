@@ -7,6 +7,7 @@ import { TAuthReponse, TAuthRequest, TAuthUser } from '../types/auth.type';
 import { createAccessToken, createRefreshToken } from './jwt';
 import EmailIsNotProvidedException from '../exceptions/auth/EmailIsNotProvidedException';
 import PasswordNotProvidedException from '../exceptions/auth/PasswordNotProvidedException';
+import { ACCESS_TOKEN_EXPIRATION_TIME_IN_SECONDS, REFRESH_TOKEN_EXPIRATION_TIME_IN_SECONDS } from '../constants/jwt.constant';
 /**
  * Hashes the given password using the bcrypt library and the AUTH_SALT environment variable.
  * This method is used to hash passwords before storing them in the database.
@@ -72,7 +73,8 @@ export function createAuthResponse(model: IAdmin | ICustomer): TAuthReponse {
     return {
         access_token: createAccessToken({ _id: model._id }),
         refresh_token: createRefreshToken({ _id: model._id }),
-        expires_in: 3600,
+        expires_in: ACCESS_TOKEN_EXPIRATION_TIME_IN_SECONDS,
+        refresh_expires_in: REFRESH_TOKEN_EXPIRATION_TIME_IN_SECONDS,
         user: sanitizeAuthUser(model)
     }
 }

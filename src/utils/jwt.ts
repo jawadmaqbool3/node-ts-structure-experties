@@ -1,5 +1,5 @@
 import { JWT_ACCESS_TOKEN_SECRET, JWT_REFRESH_TOKEN_SECRET } from "../constants/env.constant";
-import { ACCESS_TOKEN_EXPIRATION_TIME, REFRESH_TOKEN_EXPIRATION_TIME } from "../constants/jwt.constant";
+import { ACCESS_TOKEN_EXPIRATION_TIME_IN_SECONDS, REFRESH_TOKEN_EXPIRATION_TIME_IN_SECONDS } from "../constants/jwt.constant";
 import TokenExpiredException from "../exceptions/jwt/TokenExpiredException";
 import jwt from "jsonwebtoken";
 
@@ -52,7 +52,7 @@ export function verifyRefreshToken(token: string): any {
  * @returns The created JWT token.
  */
 export function createAccessToken(payload: object): string {
-    return jwt.sign(payload, JWT_ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION_TIME });
+    return jwt.sign(payload, JWT_ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION_TIME_IN_SECONDS });
 }
 
 
@@ -65,5 +65,5 @@ export function createAccessToken(payload: object): string {
  */
 
 export function createRefreshToken(payload: object): string {
-    return jwt.sign(payload, JWT_ACCESS_TOKEN_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRATION_TIME });
+    return jwt.sign(payload, JWT_ACCESS_TOKEN_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRATION_TIME_IN_SECONDS });
 }

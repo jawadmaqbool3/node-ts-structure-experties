@@ -1,5 +1,5 @@
 import mongoose, { Model } from 'mongoose';
-import { INftRoundValue } from '../interfaces/models/nft-round-value.interface';
+import { INftRoundValue } from '../../interfaces/models/nft-round-value.interface';
 
 
 

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { toObjectId } from "../utils/mongoos.utils";
 import Repository from "./Repository";
 import { IReferral } from "../interfaces/models/referrals.interface";
-import Referral from "../models/referrals.model";
+import Referral from "../mongo/models/referrals.model";
 import ReferralNotFoundException from "../exceptions/referral/ReferralNotFoundException";
 
 export default class ReferralRepository extends Repository<IReferral> {
