@@ -2,9 +2,6 @@ import mongoose, { Model } from 'mongoose';
 import { INft } from '../../interfaces/models/nft.interface';
 
 
-
-export const relations = {}
-
 const nftSchema = new mongoose.Schema<INft>({
     name: { type: String, required: true },
     booths: { type: Number, default: 0 },

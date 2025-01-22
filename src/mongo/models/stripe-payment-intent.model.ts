@@ -4,8 +4,6 @@ import { PaymentIntentStatus } from '../../enums/stripe.enum';
 import { IStripePaymentIntent } from '../../interfaces/models/stripe-payment-intent.interface';
 import { USD } from '../../constants/currency.constant';
 
-export const relations = {}
-
 const StripePaymentIntentSchema = new mongoose.Schema<IStripePaymentIntent>({
     order_id: { type: mongoose.Schema.Types.ObjectId, ref: "transactions", required: true },
     amount: { type: Number, required: true },

@@ -2,7 +2,6 @@ import mongoose, { Model } from 'mongoose';
 
 import { IReferral } from '../../interfaces/models/referrals.interface';
 
-export const relations = {}
 
 const referralSchema = new mongoose.Schema<IReferral>({
     number_of_uses: { type: Number, default: 0 },

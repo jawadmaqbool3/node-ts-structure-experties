@@ -2,7 +2,6 @@ import mongoose, { Model } from 'mongoose';
 
 import { IStripeCustomer } from '../../interfaces/models/stripe-customer.interface';
 
-export const relations = {}
 
 const stripeCustomer = new mongoose.Schema<IStripeCustomer>({
     email: { type: String, required: true },
