@@ -13,6 +13,8 @@ import PasswordValidationException from '../exceptions/input-validations/Passwor
 import EVMWalletNotProvidedException from '../exceptions/input-validations/EVMWalletNotProvidedException';
 import SolWalletNotProvidedException from '../exceptions/input-validations/SolWalletNotProvidedException';
 import { RANDOM_PASSWORD_CHARACTERS } from '../constants/auth.constant';
+import speakeasy from 'speakeasy';
+
 /**
  * Hashes the given password using the bcrypt library and the AUTH_SALT environment variable.
  * This method is used to hash passwords before storing them in the database.
@@ -101,7 +103,7 @@ export function validateLoginInput(credentials: TAuthRequest): void {
 }
 
 
-export function validateRegistrationInput(registerationRequest: TCustomRegistrationRequest): void  {
+export function validateRegistrationInput(registerationRequest: TCustomRegistrationRequest): void {
     const {
         first_name,
         email,
@@ -139,4 +141,23 @@ export function generateOTP(): number {
 export function generateRandomString(length: number): string {
     const characters = RANDOM_PASSWORD_CHARACTERS;
     return Array.from({ length }, () => characters[Math.floor(Math.random() * characters.length)]).join('');
+}
+
+
+/**
+ * Verifies a Time-based One-Time Password (TOTP) using the provided code and secret.
+ * This function uses the speakeasy library to verify the TOTP against the given secret.
+ *
+ * @param {string} code - The TOTP code to verify.
+ * @param {string} secret - The secret key used to generate the TOTP.
+ *
+ * @returns {boolean} - Returns true if the TOTP is valid, otherwise false.
+ */
+
+export function verifyTfa(code: string, secret: string): boolean {
+    return speakeasy.totp.verify({
+        secret: secret,
+        encoding: "base32",
+        token: code,
+    });
 }

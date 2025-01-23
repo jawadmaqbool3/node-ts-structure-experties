@@ -2,9 +2,9 @@ import InvalidCredentialsProvidedException from "../exceptions/auth/InvalidCrede
 import AdminRepository from "../repositories/AdminRepository";
 import { TAuthReponse, TAuthRequest, TCustomRegistrationRequest } from "../types/auth.type";
 import Service from "./Service";
-import { validateLoginInput, comparePassword, createAuthResponse, hashPassword, validateRegistrationInput, generateRandomString, } from "../utils/auth.utils";
+import { validateLoginInput, comparePassword, createAuthResponse, hashPassword, validateRegistrationInput, generateRandomString, verifyTfa, } from "../utils/auth.utils";
 import CustomerRepository from "../repositories/CustomerRepository";
-import { ICustomer, ICustomerLean } from "../interfaces/models/customer.interface";
+import { ICustomer } from "../interfaces/models/customer.interface";
 import { IAdmin } from "../interfaces/models/admin.interface";
 import { sendAdminOTPEmail, sendRegistrationEmail } from "../utils/email.utils";
 import OTPCreationFailedException from "../exceptions/otp/OTPCreationFailedException";
@@ -12,6 +12,7 @@ import OTPVerificationFailedException from "../exceptions/otp/OTPVerificationFai
 import { validateOrThrowOTP } from "../utils/otp.utils";
 import { MIN_PASSWORD_LENGTH } from "../constants/auth.constant";
 import EmailAlreadyExistsException from "../exceptions/input-validations/EmailAlreadyExistsException";
+import InvalidTfaCodeProvidedException from "../exceptions/auth/InvalidTfaCodeProvidedException";
 
 
 export default class AuthService extends Service {
@@ -41,6 +42,7 @@ export default class AuthService extends Service {
      */
     public async authenticateAdminAndSendEmailOtp(credentials: TAuthRequest) {
         let admin = await this.login(credentials, this.adminRepository);
+        admin = await this.resetVerificationChecks(admin as IAdmin);
         const updateOtpAdmin = await this.adminRepository.setOTP(admin._id);
         if (!updateOtpAdmin || !updateOtpAdmin.email_otp_code) throw new OTPCreationFailedException();
         await sendAdminOTPEmail(admin as IAdmin, updateOtpAdmin.email_otp_code);
@@ -97,9 +99,29 @@ export default class AuthService extends Service {
      * @throws {InvalidCredentialsProvidedException} If the provided credentials are invalid.
      */
     public async adminLogin(credentials: TAuthRequest): Promise<TAuthReponse> {
-        const admin = await this.login(credentials, this.adminRepository);
+        let admin = await this.login(credentials, this.adminRepository);
         return createAuthResponse(admin);
     }
+
+    /**
+     * Resets the verification checks for the given admin.
+     *
+     * This method updates the admin's verification status based on their email OTP and TFA settings.
+     * It sets `is_email_otp_verified` to false if email OTP is enabled, and `is_tfa_verified` to false if TFA is enabled.
+     *
+     * @param {IAdmin} admin - The admin whose verification checks are to be reset.
+     * 
+     * @returns {Promise<IAdmin>} A promise that resolves to the updated admin with reset verification checks.
+     */
+
+    public async resetVerificationChecks(admin: IAdmin): Promise<IAdmin> {
+        const updateAdmin = await this.adminRepository.update(admin._id, {
+            is_email_otp_verified: !admin.is_email_otp_enabled,
+            is_tfa_verified: !admin.is_tfa_enabled
+        });
+        return updateAdmin as IAdmin;
+    }
+
 
 
     /**
@@ -182,10 +204,36 @@ export default class AuthService extends Service {
         });
     }
 
+    /**
+     * Validates the given customer registration request by checking that the email is not already in use.
+     * This function is used to validate the input to the /register endpoint.
+     * 
+     * @param {TCustomRegistrationRequest} registerationRequest - The customer registration request to validate.
+     * 
+     * @throws {EmailAlreadyExistsException} If the email is already in use.
+     */
     public async validateCustomerRegistrationRequest(registerationRequest: TCustomRegistrationRequest): Promise<void> {
         validateRegistrationInput(registerationRequest);
         const { email } = registerationRequest;
         const customer = await this.customerRepository.searchByEmail(email);
         if (customer) throw new EmailAlreadyExistsException();
+    }
+
+
+    /**
+     * Verifies the TFA code for the given admin user.
+     * 
+     * @param {IAdmin} admin - The admin user to verify the TFA code for.
+     * @param {string} code - The TFA code to verify.
+     * 
+     * @returns {IAdmin} The admin user if the TFA code is valid.
+     * 
+     * @throws {InvalidTfaCodeProvidedException} If the TFA code is invalid.
+     */
+    public async verifyTfa(admin: IAdmin, code: string): Promise<IAdmin> {
+        const isVerfied = verifyTfa(code, admin.tfa_secret);
+        if (!isVerfied) throw new InvalidTfaCodeProvidedException();
+        const verfiedAdmin = await this.adminRepository.update(admin._id, { is_tfa_verified: true });
+        return verfiedAdmin as IAdmin;
     }
 }

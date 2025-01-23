@@ -2,7 +2,6 @@ import { OTP_EXPIRATION_TIME_IN_MINUTES } from "../constants/auth.constant";
 import { CUSTOMER_REGISTRATION_EMAIL, OTP_EMAIL } from "../constants/email.contant";
 import { IAdmin } from "../interfaces/models/admin.interface";
 import { ICustomer } from "../interfaces/models/customer.interface";
-import Email from "../mailers/AuthMailer";
 import { render } from "./html.utils";
 
 
@@ -34,14 +33,11 @@ export function prepareAdminOTPEmailOptions(admin: IAdmin, otp: number): object 
 
 
 
-
 /**
- * Prepares the email options for sending an OTP to a customer.
+ * Prepares the email options for sending registration confirmation email to a customer.
  *
- * @param {ICustomer} customer - The customer object containing the email address to send the OTP to.
- * @param {number} otp - The one-time password to be included in the email.
- * @returns {object} The email options including the recipient's email, HTML content,
- * and additional email metadata.
+ * @param {ICustomer} customer - The customer object containing the email address to send the email to.
+ * @returns {object} The email options including the recipient's email, HTML content, and additional email metadata.
  */
 export function prepareCustomerRegistrationEmailOptions(customer: ICustomer): object {
 

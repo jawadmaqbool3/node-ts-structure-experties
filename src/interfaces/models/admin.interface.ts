@@ -10,6 +10,9 @@ export interface IAdminBase  {
     last_login_at: Date;
     email_otp_code: number | null;
     active: boolean;
+    is_email_otp_enabled: boolean;
+    is_tfa_enabled: boolean;
+    tfa_secret: string;
     is_email_otp_verified: boolean;
     is_tfa_verified: boolean;
     otp_generated_at: Date;

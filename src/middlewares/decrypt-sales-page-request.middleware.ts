@@ -21,9 +21,7 @@ export default function decryptSalesPageRequest(req: Request | IExtendedCustomer
         
         delete req.body.payload;
         req.body = parseIfJson(decryptedPayload);
-        console.log({
-            body: req.body
-        })
+     
     }
 
     next();

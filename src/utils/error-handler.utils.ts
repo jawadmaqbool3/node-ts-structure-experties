@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import CustomException from '../exceptions/CustomException';
-import { MongooseError } from 'mongoose';
 import { DUPLICATE_KEY_EXCEPTION } from '../messages/exceptions.messages';
 
 /**

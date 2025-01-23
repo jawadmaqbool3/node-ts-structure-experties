@@ -8,6 +8,7 @@ const controller = new AuthController();
 
 router.post('/login', controller.login.bind(controller));
 router.post('/verify-otp', validateAdmin(), controller.verifyOtp.bind(controller));
+router.post('/verify-2fa', validateAdmin(), controller.verifyTfa.bind(controller));
 
 
 

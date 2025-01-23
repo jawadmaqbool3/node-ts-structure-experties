@@ -45,4 +45,6 @@ NAME_VALIDATION_EXCEPTION_MESSAGE = `Name must be ${MIN_NAME_LENGTH} to ${MAX_NA
 SOL_WALLET_NOT_PROVIDED =  "Solane wallet is not provided",
 EVM_WALLET_NOT_PROVIDED =  "EVM wallet is not provided",
 DUPLICATE_KEY_EXCEPTION = "Duplicate key exception",
-EMAIL_ALREADY_EXISTS = "Email already exists"
+EMAIL_ALREADY_EXISTS = "Email already exists",
+INVALID_TFA_CODE_PROVIDED = "Invalid TFA code provided",
+TFA_VERIFIED_SUCCESSFULLY = "Two-factor authentication verified successfully."

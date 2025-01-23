@@ -4,8 +4,8 @@ import { IExtendedAdminRequest } from "../../interfaces/request.interface";
 import AuthService from "../../services/AuthService";
 import { TAuthRequest, TOTPVerificationRequest } from "../../types/auth.type";
 import { OTP_IS_SENT_TO_EMAIL, OTP_VERIFIED_SUCCESSFULLY } from "../../messages/request-success.messages";
-import AdminNotFoundException from "../../exceptions/middlewares/AdminNotFoundException";
 import { IAdmin } from "../../interfaces/models/admin.interface";
+import { TFA_VERIFIED_SUCCESSFULLY } from "../../messages/exceptions.messages";
 
 
 export default class AuthController extends Controller {
@@ -48,23 +48,49 @@ export default class AuthController extends Controller {
     }
 
 
+
     /**
-     * Verifies the OTP sent to the admin user's email address after a successful login.
+     * Verifies the OTP for the given admin user.
      *
-     * @param {IExtendedAdminRequest} req - The request object with the admin user's OTP in the body.
+     * @param {IExtendedAdminRequest} req - The request object with the admin user's OTP to be verified.
      * @param {Response} res - The response object to send a success message.
-     * @param {NextFunction} next - The next function to pass the error to if OTP verification fails.
+     * @param {NextFunction} next - The next function to pass the error to if the verification fails.
      *
      * @returns {Promise<void>}
      */
     public async verifyOtp(req: IExtendedAdminRequest, res: Response, next: NextFunction): Promise<void> {
         try {
             const verificationRequest: TOTPVerificationRequest = req.body;
-            if (!req.admin) throw new AdminNotFoundException();
-            const admin: IAdmin = req.admin;
+            const admin: IAdmin = req.admin as IAdmin;
             await this.authService.verifyAdminOtp(admin, verificationRequest.otp);
             return this.prepareSuccess(res, {
                 message: OTP_VERIFIED_SUCCESSFULLY
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+
+
+
+    /**
+     * Verifies the TFA code for the given admin user.
+     *
+     * @param {IExtendedAdminRequest} req - The request object containing the admin user and TFA code.
+     * @param {Response} res - The response object to send a success message.
+     * @param {NextFunction} next - The next function to pass the error to if the verification fails.
+     *
+     * @returns {Promise<void>}
+     */
+
+    public async verifyTfa(req: IExtendedAdminRequest, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const admin: IAdmin = req.admin as IAdmin;
+            const { code } = req.body;
+            await this.authService.verifyTfa(admin, code);
+            return this.prepareSuccess(res, {
+                message: TFA_VERIFIED_SUCCESSFULLY,
             });
         } catch (error) {
             next(error);
