@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{subject}}</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: #ffffff;
+			font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+			color: #f1f5ff;
+		}
+
+		.container {
+			max-width: 480px;
+			margin: 0 auto;
+			background-color: #000000;
+			padding: 20px;
+			border-radius: 8px;
+		}
+
+		.header {
+			display: flex;
+			align-items: center;
+			padding: 10px 0;
+		}
+
+		.header img {
+			max-width: 90px;
+			height: auto;
+		}
+
+		.header h1 {
+			margin: 0;
+			color: #ffffff;
+			font-size: 24px;
+			font-weight: 700;
+			margin-left: 15px;
+		}
+
+		.header p {
+			margin: 5px 0px 0px 15px;
+			color: #ffffff;
+			font-size: 16px;
+			letter-spacing: 1px;
+			font-weight: 500;
+		}
+
+		.content {
+			margin-top: 20px;
+			color: #ffffff;
+		}
+
+		.content p {
+			margin: 10px 0;
+			font-size: 15px;
+			text-align: justify
+		}
+
+		.subheading {
+			font-size: 15px;
+			font-weight: bold;
+			text-align: left;
+			margin: 20px 0;
+			color: #ffffff;
+		}
+
+		.footer {
+			text-align: left;
+			color: #adadad;
+			font-size: 14px;
+			margin-top: 20px;
+		}
+
+		.footer a {
+			color: #ffffff;
+			text-decoration: none;
+			font-weight: bold;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="header">
+			<img src="cid:logo-image-id" alt="Meta Forge Group Logo">
+			<div>
+				<h1>Meta Forge Group</h1>
+				<p>{{subject}}</p>
+			</div>
+		</div>
+		<div class="content">
+			<p>Dear {{user_name}}</p>
+			<p>On behalf of the entire team at Meta Forge Group, we'd like to extend a warm welcome! We're thrilled to
+				have you join our community.</p>
+			<div class="subheading">Here are your login credentials:</div>
+			<p><strong>Email:</strong> {{email}}</p>
+			<p><strong>Password:</strong> {{password}}</p>
+			<p>Thank you for choosing Meta Forge Group. We look forward to working with you!</p>
+		</div>
+		<div class="footer">
+			<p>Best regards,</p>
+			<p>Team Meta Forge</p>
+			<p><a href="https://metaforgegroup.com/">https://metaforgegroup.com/</a></p>
+		</div>
+	</div>
+</body>
+
+</html>

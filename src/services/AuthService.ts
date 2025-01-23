@@ -1,15 +1,17 @@
 import InvalidCredentialsProvidedException from "../exceptions/auth/InvalidCredentialsProvidedException";
 import AdminRepository from "../repositories/AdminRepository";
-import { TAuthReponse, TAuthRequest } from "../types/auth.type";
+import { TAuthReponse, TAuthRequest, TCustomRegistrationRequest } from "../types/auth.type";
 import Service from "./Service";
-import { authenticateLoginInput, comparePassword, createAuthResponse, } from "../utils/auth.utils";
+import { validateLoginInput, comparePassword, createAuthResponse, hashPassword, validateRegistrationInput, generateRandomString, } from "../utils/auth.utils";
 import CustomerRepository from "../repositories/CustomerRepository";
-import { ICustomer } from "../interfaces/models/customer.interface";
+import { ICustomer, ICustomerLean } from "../interfaces/models/customer.interface";
 import { IAdmin } from "../interfaces/models/admin.interface";
-import { sendAdminOTPEmail } from "../utils/email.utils";
+import { sendAdminOTPEmail, sendRegistrationEmail } from "../utils/email.utils";
 import OTPCreationFailedException from "../exceptions/otp/OTPCreationFailedException";
 import OTPVerificationFailedException from "../exceptions/otp/OTPVerificationFailedException";
 import { validateOrThrowOTP } from "../utils/otp.utils";
+import { MIN_PASSWORD_LENGTH } from "../constants/auth.constant";
+import EmailAlreadyExistsException from "../exceptions/input-validations/EmailAlreadyExistsException";
 
 
 export default class AuthService extends Service {
@@ -127,7 +129,7 @@ export default class AuthService extends Service {
      */
     public async login(credentials: TAuthRequest, repository: CustomerRepository | AdminRepository): Promise<IAdmin | ICustomer> {
         const { email, password } = credentials;
-        authenticateLoginInput(credentials);
+        validateLoginInput(credentials);
         const user = await repository.searchByEmail(email);
         if (!user) throw new InvalidCredentialsProvidedException();
         const isPasswordValid = await comparePassword(password, user.password);
@@ -138,9 +140,52 @@ export default class AuthService extends Service {
 
 
 
+    /**
+     * Registers a customer and sends a registration confirmation email to the specified customer.
+     * The password is randomly generated and sent to the customer in the email.
+     * 
+     * @param {TCustomRegistrationRequest} registerationRequest - The registration request to use to register the customer.
+     * 
+     * @returns {Promise<TAuthReponse>} A promise that resolves to the authenticated customer user and their tokens.
+     * 
+     * @throws {InvalidCredentialsProvidedException} If the provided credentials are invalid.
+     */
+    public async registerCustomerAndSendPassword(registerationRequest: TCustomRegistrationRequest): Promise<TAuthReponse> {
+        const password = generateRandomString(MIN_PASSWORD_LENGTH);
+        const customer = await this.registerCustomer({
+            ...registerationRequest,
+            password
+        });
+        customer.password = password;
+        await sendRegistrationEmail(customer);
+        return createAuthResponse(customer);
+    }
 
 
+    /**
+     * Registers a customer user with the given registration request.
+     * The password is hashed before storing in the database.
+     * 
+     * @param {TCustomRegistrationRequest} registerationRequest - The registration request to use to register the customer.
+     * 
+     * @returns {Promise<ICustomer>} A promise that resolves to the newly registered customer user.
+     * 
+     * @throws {InvalidCredentialsProvidedException} If the provided credentials are invalid.
+     */
+    public async registerCustomer(registerationRequest: TCustomRegistrationRequest): Promise<ICustomer> {
+        await this.validateCustomerRegistrationRequest(registerationRequest);
+        const { password } = registerationRequest;
+        const hashedPassword = password ? await hashPassword(password) : '';
+        return await this.customerRepository.create({
+            ...registerationRequest,
+            password: hashedPassword
+        });
+    }
 
-
-
+    public async validateCustomerRegistrationRequest(registerationRequest: TCustomRegistrationRequest): Promise<void> {
+        validateRegistrationInput(registerationRequest);
+        const { email } = registerationRequest;
+        const customer = await this.customerRepository.searchByEmail(email);
+        if (customer) throw new EmailAlreadyExistsException();
+    }
 }

@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import CustomException from '../exceptions/CustomException';
+import { MongooseError } from 'mongoose';
+import { DUPLICATE_KEY_EXCEPTION } from '../messages/exceptions.messages';
 
 /**
  * Handles any errors that may occur during the request and response
@@ -23,6 +25,9 @@ const errorHandler = (err: any, req: Request, res: Response, next: NextFunction)
 
     if (err instanceof CustomException) {
         res.status(err.statusCode).json({ message: err.message });
+    }
+    if (err.code === 11000) {
+        res.status(400).json({ message: DUPLICATE_KEY_EXCEPTION });
     }
     else {
         const status = 500;

@@ -109,11 +109,7 @@ export function calculateValidatedDiscountAmounts(
     const trunkHolderDiscountAmount: number = trunkDiscountAmountPerUnit * applicableTrunkDiscountUnits;
     const fastDiscountAmount: number = fastDiscountAmountPerUnit * applicableFastDiscountUnits;
     const totalAmount: number = netAmount - (trunkHolderDiscountAmount + fastDiscountAmount);
-    console.log({
-        totalAmount,
-        applicableTrunkDiscountUnits,
-        applicableFastDiscountUnits,
-    })
+ 
     if (totalAmount != totalPrice) throw new OrderAmountValidationFailedException();
 
     return {

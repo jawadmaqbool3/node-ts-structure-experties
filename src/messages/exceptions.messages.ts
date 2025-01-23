@@ -1,3 +1,4 @@
+import { MAX_NAME_LENGTH, MAX_PASSWORD_LENGTH, MIN_NAME_LENGTH, MIN_PASSWORD_LENGTH } from "../constants/auth.constant";
 
 
 export const 
@@ -37,5 +38,11 @@ ADMIN_NOT_FOUND = "Admin not found",
 INVALID_OTP_PROVIDED = "Invalid OTP provided",
 OTP_VERIFICATION_FAILED = "OTP verification failed",
 OTP_EXPIRED = "OTP expired",
-TFA_VERIFICATION_FAILED = "2FA verification failed"
-
+TFA_VERIFICATION_FAILED = "2FA verification failed",
+INVALID_EMAIL_PROVIDED= "Invalid email provided",
+PASSWORD_VALIDATION_EXCEPTION_MESSAGE = `Password must be ${MIN_PASSWORD_LENGTH} to ${MAX_PASSWORD_LENGTH} characters long`,
+NAME_VALIDATION_EXCEPTION_MESSAGE = `Name must be ${MIN_NAME_LENGTH} to ${MAX_NAME_LENGTH} characters long`,
+SOL_WALLET_NOT_PROVIDED =  "Solane wallet is not provided",
+EVM_WALLET_NOT_PROVIDED =  "EVM wallet is not provided",
+DUPLICATE_KEY_EXCEPTION = "Duplicate key exception",
+EMAIL_ALREADY_EXISTS = "Email already exists"

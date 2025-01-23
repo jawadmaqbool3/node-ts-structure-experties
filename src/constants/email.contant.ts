@@ -1,12 +1,29 @@
+const logo = {
+    filename: 'logo.png',
+    path: __dirname + '\\..\\static-files\\logo.png',
+    cid: 'logo-image-id',
+}
+const from = `Team Utherverse <noreply@nexusecosystem.io>`
+const lookupTemplate = (fileName: string) => __dirname + '\\..\\static-files\\templates\\' + fileName
+const OTP_EMAIL_TEMPLATE = lookupTemplate("otp-email-template\\index.html"),
+    CUSTOMER_REGISTRATION_EMAIL_TEMPLATE = lookupTemplate("customer-registration-email-template\\index.html");
+
+
 export const OTP_EMAIL = {
-    from: `Team Utherverse <noreply@nexusecosystem.io>`,
+    from,
     subject: "OTP Verification",
-    template: __dirname + "\\..\\static-files\\templates\\otp-email-template\\index.html",
+    template: OTP_EMAIL_TEMPLATE,
     attachments: [
-        {
-            filename: 'logo.png', 
-            path: __dirname + '\\..\\static-files\\logo.png',
-            cid: 'logo-image-id', 
-        },
+        logo
+    ],
+}
+
+
+export const CUSTOMER_REGISTRATION_EMAIL = {
+    from,
+    subject: "Registration Confirmation",
+    template: CUSTOMER_REGISTRATION_EMAIL_TEMPLATE,
+    attachments: [
+        logo
     ],
 }

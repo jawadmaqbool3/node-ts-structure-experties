@@ -3,11 +3,16 @@ import { AUTH_SALT } from '../constants/env.constant';
 import PasswordEncryptionFailedException from '../exceptions/auth/PasswordEncryptionFailedException';
 import { IAdmin } from '../interfaces/models/admin.interface';
 import { ICustomer } from '../interfaces/models/customer.interface';
-import { TAuthReponse, TAuthRequest, TAuthUser } from '../types/auth.type';
+import { TAuthReponse, TAuthRequest, TAuthUser, TCustomRegistrationRequest } from '../types/auth.type';
 import { createAccessToken, createRefreshToken } from './jwt';
-import EmailIsNotProvidedException from '../exceptions/auth/EmailIsNotProvidedException';
-import PasswordNotProvidedException from '../exceptions/auth/PasswordNotProvidedException';
+import EmailIsNotProvidedException from '../exceptions/input-validations/EmailIsNotProvidedException';
+import PasswordNotProvidedException from '../exceptions/input-validations/PasswordNotProvidedException';
 import { ACCESS_TOKEN_EXPIRATION_TIME_IN_SECONDS, REFRESH_TOKEN_EXPIRATION_TIME_IN_SECONDS } from '../constants/jwt.constant';
+import { validateEmail, validateName, validatePassword } from './validation.utils';
+import PasswordValidationException from '../exceptions/input-validations/PasswordValidationException';
+import EVMWalletNotProvidedException from '../exceptions/input-validations/EVMWalletNotProvidedException';
+import SolWalletNotProvidedException from '../exceptions/input-validations/SolWalletNotProvidedException';
+import { RANDOM_PASSWORD_CHARACTERS } from '../constants/auth.constant';
 /**
  * Hashes the given password using the bcrypt library and the AUTH_SALT environment variable.
  * This method is used to hash passwords before storing them in the database.
@@ -89,11 +94,29 @@ export function createAuthResponse(model: IAdmin | ICustomer): TAuthReponse {
  * @throws {EmailIsNotProvidedException} If the email is not provided.
  * @throws {PasswordNotProvidedException} If the password is not provided.
  */
-export function authenticateLoginInput(credentials: TAuthRequest) {
+export function validateLoginInput(credentials: TAuthRequest): void {
     const { email, password } = credentials;
     if (!email) throw new EmailIsNotProvidedException();
     if (!password) throw new PasswordNotProvidedException();
 }
+
+
+export function validateRegistrationInput(registerationRequest: TCustomRegistrationRequest): void  {
+    const {
+        first_name,
+        email,
+        wallet_address,
+        sol_wallet_address,
+        password
+    } = registerationRequest;
+    if (validatePassword(password) === false) throw new PasswordValidationException();
+    if (validateName(first_name) === false) throw new EmailIsNotProvidedException();
+    if (validateEmail(email) === false) throw new EmailIsNotProvidedException();
+    if (!wallet_address) throw new EVMWalletNotProvidedException();
+    if (!sol_wallet_address) throw new SolWalletNotProvidedException();
+}
+
+
 
 /**
  * Generates a 6-digit one-time password (OTP) as a number.
@@ -102,4 +125,18 @@ export function authenticateLoginInput(credentials: TAuthRequest) {
  */
 export function generateOTP(): number {
     return Math.floor(100000 + Math.random() * 900000);
+}
+
+
+
+/**
+ * Generates a random string of the given length using the characters in the RANDOM_PASSWORD_CHARACTERS constant.
+ *
+ * @param {number} length - The length of the string to generate.
+ *
+ * @returns {string} - The generated random string.
+ */
+export function generateRandomString(length: number): string {
+    const characters = RANDOM_PASSWORD_CHARACTERS;
+    return Array.from({ length }, () => characters[Math.floor(Math.random() * characters.length)]).join('');
 }

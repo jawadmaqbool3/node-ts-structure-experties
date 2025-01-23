@@ -1,5 +1,6 @@
 import { IAdmin } from "../interfaces/models/admin.interface";
-import { prepareAdminOTPEmailOptions } from "../utils/email-options.utils";
+import { ICustomer } from "../interfaces/models/customer.interface";
+import { prepareAdminOTPEmailOptions, prepareCustomerRegistrationEmailOptions } from "../utils/email-options.utils";
 import Mailer from "./Mailer";
 
 
@@ -10,8 +11,8 @@ export default class Email extends Mailer {
      *
      * @param email The email address to send emails to
      */
-    constructor(email: string) {
-        super(email);
+    constructor() {
+        super();
     }
 
     public async sendAdminOTPEmail(admin: IAdmin, otp: number): Promise<void> {
@@ -24,6 +25,19 @@ export default class Email extends Mailer {
          * @returns {Promise<void>} A promise that resolves when the email has been sent.
          */
 
+        return this.send(mailOptions);
+    }
+
+
+    /**
+     * Sends a registration email to the specified customer.
+     *
+     * @param {ICustomer} customer - The customer object containing the email address to send the registration email to.
+     * @returns {Promise<void>} A promise that resolves when the email has been sent.
+     */
+
+    public async sendRegistrationEmail(customer: ICustomer): Promise<void> {
+        const mailOptions = prepareCustomerRegistrationEmailOptions(customer);
         return this.send(mailOptions);
     }
 

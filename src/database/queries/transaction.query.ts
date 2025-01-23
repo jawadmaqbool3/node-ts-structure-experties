@@ -9,6 +9,19 @@ import { CUSTOMER_VIEW_NFT } from "../projections/nft.projection"
 import { NFT_TO_NFT_TYPE } from "../relations/nft.relation"
 import { CUSTOMER_VIEW_NFT_TYPE } from "../projections/nft-type.projection"
 
+/**
+ * Prepares a MongoDB aggregation pipeline to retrieve a list of successful transactions for a specific customer.
+ * 
+ * The pipeline includes the following stages:
+ * 1. Match - Filters transactions by the provided customer ID and ensures the transaction status is 'SUCCESS'.
+ * 2. Lookup - Joins the transactions with the related order information using the order ID.
+ * 3. Nested Lookup - Within the order lookup, further joins the orders with related NFTs and their types.
+ * 4. Projection - Selects specific fields from the transactions, orders, NFTs, and NFT types to form the final result.
+ * 
+ * @param {string | mongoose.Types.ObjectId} customerId - The ID of the customer for whom transactions are being retrieved.
+ * @returns {PipelineStage[]} - A MongoDB aggregation pipeline to retrieve the desired transaction list.
+ */
+
 export const prepareCustomerTransactionListQuery = (customerId: string | mongoose.Types.ObjectId): PipelineStage[] => {
     return [{
         $match: {

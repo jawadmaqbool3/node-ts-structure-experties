@@ -20,6 +20,14 @@ export type TAuthRequest = {
     password: string
 }
 
+export type TCustomRegistrationRequest = {
+    first_name: string,
+    email: string,
+    wallet_address: string,
+    password?: string,
+    sol_wallet_address: string
+}
+
 export type TOTPVerificationRequest = {
     otp: number
 }

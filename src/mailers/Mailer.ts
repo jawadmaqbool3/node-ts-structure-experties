@@ -9,8 +9,6 @@ export default class Mailer {
     /**
      * Creates an instance of the Mailer class.
      *
-     * @param email The recipient's email address.
-     * 
      * @remarks
      * If the transporter property is not already set, it will be set up using the
      * values from the environment variables. This is done to ensure that the
@@ -18,7 +16,6 @@ export default class Mailer {
      * every time a new instance of the Mailer class is created.
      */
     constructor(
-        protected email: string
     ) {
         if (!Mailer.transporter) {
             Mailer.transporter = nodemailer.createTransport({
