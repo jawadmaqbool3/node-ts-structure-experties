@@ -18,7 +18,7 @@ const commissionSchema = new mongoose.Schema<ICommission>({
     type: { type: String, enum: CommissionType, required: true },
 }, { timestamps: true });
 
-const Commission: Model<ICommission> = mongoose.model<ICommission>('commissions', commissionSchema);
+const Commission: Model<ICommission> = mongoose.model<ICommission>('commisions', commissionSchema);
 
 
 

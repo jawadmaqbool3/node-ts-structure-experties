@@ -1,11 +1,11 @@
 import express from 'express';
-import AuthController from '../../../controllers/customer/AuthController';
+import CommissionController from '../../../controllers/customer/CommissionController';
 
 const router = express.Router();
 
+const commissionController = new CommissionController();
 
-
-
+router.get('/', commissionController.list.bind(commissionController));
 
 export default router;
 

@@ -1,5 +1,5 @@
 import { IStripePaymentIntent } from "../interfaces/models/stripe-payment-intent.interface";
-import StripePaymentIntent from "../mongo/models/stripe-payment-intent.model";
+import StripePaymentIntent from "../database/models/stripe-payment-intent.model";
 import Repository from "./Repository";
 
 export default class StripePaymentIntentRepository extends Repository<IStripePaymentIntent> {

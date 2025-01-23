@@ -1,5 +1,5 @@
 import { ITrunkHolder } from "../interfaces/models/trunk-holder.interface";
-import TrunkHolder from "../mongo/models/trunk-holder.model";
+import TrunkHolder from "../database/models/trunk-holder.model";
 import Repository from "./Repository";
 
 export default class TrunkHolderRepository extends Repository<ITrunkHolder> {

@@ -1,6 +1,6 @@
 import Repository from "./Repository";
 import { IAdmin } from "../interfaces/models/admin.interface";
-import Admin from "../mongo/models/admin.model";
+import Admin from "../database/models/admin.model";
 import { generateOTP } from "../utils/auth.utils";
 import mongoose from "mongoose";
 

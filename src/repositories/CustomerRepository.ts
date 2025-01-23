@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { toObjectId } from "../utils/mongoos.utils";
 import Repository from "./Repository";
 import { ICustomer } from "../interfaces/models/customer.interface";
-import Customer from "../mongo/models/customer.model";
+import Customer from "../database/models/customer.model";
 import CustomerNotFoundException from "../exceptions/customer/CustomerNotFoundException";
 
 export default class CustomerRepository extends Repository<ICustomer> {

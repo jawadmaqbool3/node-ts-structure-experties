@@ -1,0 +1,42 @@
+import { NextFunction, Response } from "express";
+import { IExtendedCustomerRequest } from "../../interfaces/request.interface";
+import Controller from "../Controller";
+import { TFilter } from "../../types/pagination.type";
+import CustomerService from "../../services/CustomerService";
+
+
+export default class AffiliateController extends Controller {
+    /**
+     * Constructor
+     *
+     * @param {CustomerService} [customerService=new CustomerService()] - customer service
+     */
+    constructor(
+        private customerService = new CustomerService(),
+    ) {
+        super();
+    }
+
+    /**
+     * Lists all the transactions for the given customer.
+     *
+     * @param {IExtendedCustomerRequest} req - The request object with the customer object.
+     * @param {Response} res - The response object to send the list of transactions in.
+     * @param {NextFunction} next - The next function to pass the error to if list fails.
+     *
+     * @returns {Promise<void>}
+     */
+    public async list(req: IExtendedCustomerRequest, res: Response, next: NextFunction): Promise<void> {
+
+        try {
+            const filters: TFilter = req.query;
+            const customer = req.customer;
+            const transactions = customer ? await this.customerService.customerAffilateList(customer, filters) : null;
+            return this.prepareSuccess(res, transactions as object);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+}
+

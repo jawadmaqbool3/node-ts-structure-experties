@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 import FirstRoundLandingNotFoundException from "../exceptions/first-round-landing/FirstRoundLandingNotFoundException";
 import { IFirstRoundLanding, IFirstRoundLandingWithRound } from "../interfaces/models/first-round-landing.interface";
-import FirstRoundLanding from "../mongo/models/first-round-landing.model";
+import FirstRoundLanding from "../database/models/first-round-landing.model";
 import { toObjectId } from "../utils/mongoos.utils";
 import Repository from "./Repository";
-import { FIRST_ROUND_LANDING_TO_ROUND } from "../mongo/relations/first-round-landing.relation";
+import { FIRST_ROUND_LANDING_TO_ROUND } from "../database/relations/first-round-landing.relation";
 
 export default class FirstRoundLandingRepository extends Repository<IFirstRoundLanding> {
     /**

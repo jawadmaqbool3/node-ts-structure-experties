@@ -3,7 +3,7 @@ import Service from "./Service";
 import { calculateDurationTillNowInSeconds } from "../utils/time";
 import { INftType, INftTypeExtendedForInitialSalesPage } from "../interfaces/models/nft-types.interface";
 import FirstRoundLandingRepository from "../repositories/FirstRoundLandingRepository";
-import { NFT_TYPE_TO_LATEST_ROUND, NFT_TYPE_TO_NFTS } from "../mongo/relations/nft-types.relation";
+import { NFT_TYPE_TO_LATEST_ROUND, NFT_TYPE_TO_NFTS } from "../database/relations/nft-types.relation";
 
 export default class SalesPageService extends Service {
 

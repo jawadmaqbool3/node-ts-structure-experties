@@ -1,6 +1,6 @@
 import mongoose, { mongo } from "mongoose";
 import { INftRoundValue } from "../interfaces/models/nft-round-value.interface";
-import NftRoundValue from "../mongo/models/nft-round-value.model";
+import NftRoundValue from "../database/models/nft-round-value.model";
 import Repository from "./Repository";
 import { TNftApplicableDiscountQuantity } from "../types/nft-order.type";
 import { toObjectId } from "../utils/mongoos.utils";

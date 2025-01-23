@@ -10,11 +10,10 @@ import { NFT_TO_NFT_TYPE } from "../relations/nft.relation"
 import { CUSTOMER_VIEW_NFT_TYPE } from "../projections/nft-type.projection"
 
 export const prepareCustomerTransactionListQuery = (customerId: string | mongoose.Types.ObjectId): PipelineStage[] => {
-
     return [{
         $match: {
-            "customer_id": toObjectId(customerId),
-            "transaction_status": TransactionStatus.SUCCESS
+            customer_id: toObjectId(customerId),
+            transaction_status: TransactionStatus.SUCCESS
         },
     },
     {

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import RoundNotFoundException from "../exceptions/nft-round/RoundNotFoundException";
 import { INftRound } from "../interfaces/models/nft-round.interface";
-import NftRound from "../mongo/models/nft-round.model";
+import NftRound from "../database/models/nft-round.model";
 import { toObjectId } from "../utils/mongoos.utils";
 import Repository from "./Repository";
 

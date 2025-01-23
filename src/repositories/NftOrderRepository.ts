@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import OrderNotFoundException from "../exceptions/nft-order/OrderNotFoundException";
 import { INftOrder } from "../interfaces/models/nft-order.interface";
-import NftOrder from "../mongo/models/nft-order.model";
+import NftOrder from "../database/models/nft-order.model";
 import { toObjectId } from "../utils/mongoos.utils";
 import Repository from "./Repository";
 

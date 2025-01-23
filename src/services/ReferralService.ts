@@ -1,15 +1,10 @@
 import Service from "./Service";
 import ReferralRepository from "../repositories/ReferralRepository";
 import { IReferral } from "../interfaces/models/referrals.interface";
-
 export default class ReferralService extends Service {
 
 
-    /**
-     * Constructor for ReferralService
-     *
-     * @param {ReferralRepository} referralRepository - Repository for handling referral data
-     */
+    
 
     constructor(
         private referralRepository = new ReferralRepository(),
@@ -28,8 +23,6 @@ export default class ReferralService extends Service {
     public async getReferralInfo(referral_id: string): Promise<IReferral | null> {
         return this.referralRepository.findOne({ referral_id });
     }
-
-
 
 
 }

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Model } from "mongoose";
 import { ITransaction } from "../interfaces/models/transaction.interface";
 import CommissionRepository from "../repositories/CommissionRepository";
 import Service from "./Service";
@@ -9,6 +9,9 @@ import { CommissionType } from "../enums/commission.enum";
 import { toObjectId } from "../utils/mongoos.utils";
 import { GRAND_PARENT_COMMISSION_PERCENTAGE, PARENT_COMMISSION_PERCENTAGE } from "../constants/commission.constant";
 import { calculatePercentage } from "../utils/number.utils";
+import { prepareCustomerCommissionListQuery } from "../database/queries/commission.query";
+import { TFilter, TPaginationResults } from "../types/pagination.type";
+import { ICommission } from "../interfaces/models/commission.interface";
 
 
 export default class CommissionService extends Service {
@@ -124,7 +127,7 @@ export default class CommissionService extends Service {
     ) {
         this.commissionRepository.create({
             comission_to,
-            transaction_by: transaction.customer_id ? toObjectId(transaction.customer_id) : null,
+            transaction_by: transaction.customer_id ? toObjectId(transaction.customer_id) : undefined,
             transaction_id: transaction._id,
             transaction_network: transaction.transaction_network,
             comission_token,
@@ -155,6 +158,20 @@ export default class CommissionService extends Service {
             parent,
             grandParent
         } as TParentAndGrandParent;
+    }
+
+
+
+    /**
+     * Retrieves a list of all commissions given to the given customer.
+     *
+     * @param {ICustomer} customer - The customer whose commissions to retrieve.
+     * @param {TFilter} filters - The filters to apply to the list of commissions.
+     *
+     * @returns {Promise<TPaginationResults<Model<ICommission>>>} - A promise that resolves to a paginated list of commissions.
+     */
+    public async customerCommissionList(customer: ICustomer, filters: TFilter): Promise<TPaginationResults<Model<ICommission>>> {
+        return await this.commissionRepository.paginate(prepareCustomerCommissionListQuery(customer._id), filters);
     }
 
 

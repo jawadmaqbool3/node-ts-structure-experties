@@ -13,7 +13,7 @@ import TransactionHashCannotBeEmptyException from "../exceptions/transaction/Tra
 import { ICustomer } from "../interfaces/models/customer.interface";
 import { TFilter, TPaginationResults } from "../types/pagination.type";
 import { Model } from "mongoose";
-import { prepareCustomerTransactionListQuery } from "../mongo/queries/transaction.query";
+import { prepareCustomerTransactionListQuery } from "../database/queries/transaction.query";
 
 
 export default class TransactionService extends Service {
