@@ -34,6 +34,7 @@ const EVMWalletNotProvidedException_1 = __importDefault(require("../exceptions/i
 const SolWalletNotProvidedException_1 = __importDefault(require("../exceptions/input-validations/SolWalletNotProvidedException"));
 const auth_constant_1 = require("../constants/auth.constant");
 const speakeasy_1 = __importDefault(require("speakeasy"));
+const FirstNameNotProvidedException_1 = __importDefault(require("../exceptions/input-validations/FirstNameNotProvidedException"));
 /**
  * Hashes the given password using the bcrypt library and the AUTH_SALT environment variable.
  * This method is used to hash passwords before storing them in the database.
@@ -128,7 +129,7 @@ function validateRegistrationInput(registerationRequest) {
     if ((0, validation_utils_1.validatePassword)(password) === false)
         throw new PasswordValidationException_1.default();
     if ((0, validation_utils_1.validateName)(first_name) === false)
-        throw new EmailIsNotProvidedException_1.default();
+        throw new FirstNameNotProvidedException_1.default();
     if ((0, validation_utils_1.validateEmail)(email) === false)
         throw new EmailIsNotProvidedException_1.default();
     if (!wallet_address)

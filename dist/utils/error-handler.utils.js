@@ -24,14 +24,14 @@ const exceptions_messages_1 = require("../messages/exceptions.messages");
 const errorHandler = (err, req, res, next) => {
     console.error((err));
     if (err instanceof CustomException_1.default) {
-        res.status(err.statusCode).json({ message: err.message });
+        res.status(err.statusCode).send({ message: err.message });
     }
     if (err.code === 11000) {
-        res.status(400).json({ message: exceptions_messages_1.DUPLICATE_KEY_EXCEPTION });
+        res.status(400).send({ message: exceptions_messages_1.DUPLICATE_KEY_EXCEPTION });
     }
     else {
         const status = 500;
-        res.status(status).json({ message: 'Internal Server Error' });
+        res.status(status).send({ message: 'Internal Server Error' });
     }
 };
 exports.errorHandler = errorHandler;

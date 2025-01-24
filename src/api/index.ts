@@ -2,21 +2,21 @@ import express from 'express';
 
 import bodyParser from 'body-parser';
 
-import router from './routes';
+import router from '../routes';
 
-import { connectDB } from './utils/mongodb.utils';
+import { connectDB } from '../utils/mongodb.utils';
 
 import colors from 'colors';
 
-import { errorHandler } from './utils/error-handler.utils';
+import { errorHandler } from '../utils/error-handler.utils';
 
-import { PORT } from './constants/env.constant';
+import { PORT } from '../constants/env.constant';
 
 import cors from 'cors';
 
-import settlementCommand from './commands/settlement.command';
+import settlementCommand from '../commands/settlement.command';
 
-import { isDevMode } from './utils/application.utils';
+import { isDevMode } from '../utils/application.utils';
 
 connectDB();
 
