@@ -23,14 +23,14 @@ const errorHandler = (err: any, req: Request, res: Response, next: NextFunction)
     console.error((err));
 
     if (err instanceof CustomException) {
-        res.status(err.statusCode).json({ message: err.message });
+        res.status(err.statusCode).send({ message: err.message });
     }
     if (err.code === 11000) {
-        res.status(400).json({ message: DUPLICATE_KEY_EXCEPTION });
+        res.status(400).send({ message: DUPLICATE_KEY_EXCEPTION });
     }
     else {
         const status = 500;
-        res.status(status).json({ message: 'Internal Server Error' });
+        res.status(status).send({ message: 'Internal Server Error' });
     }
 };
 

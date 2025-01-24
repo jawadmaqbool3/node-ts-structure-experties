@@ -14,6 +14,7 @@ import EVMWalletNotProvidedException from '../exceptions/input-validations/EVMWa
 import SolWalletNotProvidedException from '../exceptions/input-validations/SolWalletNotProvidedException';
 import { RANDOM_PASSWORD_CHARACTERS } from '../constants/auth.constant';
 import speakeasy from 'speakeasy';
+import FirstNameNotProvidedException from '../exceptions/input-validations/FirstNameNotProvidedException';
 
 /**
  * Hashes the given password using the bcrypt library and the AUTH_SALT environment variable.
@@ -112,7 +113,7 @@ export function validateRegistrationInput(registerationRequest: TCustomRegistrat
         password
     } = registerationRequest;
     if (validatePassword(password) === false) throw new PasswordValidationException();
-    if (validateName(first_name) === false) throw new EmailIsNotProvidedException();
+    if (validateName(first_name) === false) throw new FirstNameNotProvidedException();
     if (validateEmail(email) === false) throw new EmailIsNotProvidedException();
     if (!wallet_address) throw new EVMWalletNotProvidedException();
     if (!sol_wallet_address) throw new SolWalletNotProvidedException();

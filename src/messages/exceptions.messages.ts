@@ -47,4 +47,5 @@ EVM_WALLET_NOT_PROVIDED =  "EVM wallet is not provided",
 DUPLICATE_KEY_EXCEPTION = "Duplicate key exception",
 EMAIL_ALREADY_EXISTS = "Email already exists",
 INVALID_TFA_CODE_PROVIDED = "Invalid TFA code provided",
-TFA_VERIFIED_SUCCESSFULLY = "Two-factor authentication verified successfully."
+TFA_VERIFIED_SUCCESSFULLY = "Two-factor authentication verified successfully.",
+FIRST_NAME_NOT_PROVIDED = "First name not provided"
